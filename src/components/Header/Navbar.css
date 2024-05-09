@@ -1,0 +1,20 @@
+.menu .active {
+  background: linear-gradient(
+    116.49deg,
+    #055c36 0%,
+    #727d61 100%
+  );
+}
+.menu a:hover, .navbar-end a:hover {
+  background: linear-gradient(
+    116.49deg,
+    #055c36 0%,
+    #727d61 100%
+  );
+}
+.menu a {
+    margin-right: 10px;
+}
+.dropdown-content li {
+  margin-bottom: 10px;
+}
