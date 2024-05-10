@@ -87,6 +87,30 @@ const Login = () => {
       });
   };
 
+  const handleGithubSignIn = () => {
+    signInWithGithub()
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        Swal.fire({
+          title: "Success!",
+          text: `Welcome ${user.displayName ? user.displayName : user.email}`,
+          icon: "success",
+          confirmButtonText: "Cool",
+        });
+        navigate(location?.state ? location.state : "/");
+      })
+      .catch((error) => {
+        console.error(error);
+        Swal.fire({
+          title: "Error!",
+          text: `${error.message}`,
+          icon: "error",
+          confirmButtonText: "Try Again",
+        });
+      });
+  };
+
   return (
     <div>
       <div className="max-w-lg mx-auto text-center space-y-4">
@@ -158,10 +182,16 @@ const Login = () => {
           </form>
           <div className="divider">OR Login With</div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <button onClick={handleGoogleSignIn} className="btn bg-gradient-to-r from-[#727d61] to-[#055c36] text-white">
+            <button
+              onClick={handleGoogleSignIn}
+              className="btn bg-gradient-to-r from-[#727d61] to-[#055c36] text-white"
+            >
               <FaGoogle /> Google
             </button>
-            <button className="btn bg-gradient-to-r from-[#727d61] to-[#055c36] text-white">
+            <button
+              onClick={handleGithubSignIn}
+              className="btn bg-gradient-to-r from-[#727d61] to-[#055c36] text-white"
+            >
               <FaGithub /> GitHub
             </button>
           </div>
