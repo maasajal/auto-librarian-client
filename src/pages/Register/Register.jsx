@@ -1,6 +1,9 @@
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import loginImg from "../../assets/images/login.svg";
+import { Link } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useState } from "react";
 const Register = () => {
   const {
     register,
@@ -15,7 +18,7 @@ const Register = () => {
     },
   });
   const onSubmit = (data) => console.log(data);
-
+  const [showPassword, setShowPassword] = useState(false);
   // Display SweetAlert error for form validation
   const showErrorAlert = (errorMessage) => {
     Swal.fire({
@@ -90,7 +93,7 @@ const Register = () => {
               />
               {errors.email && showErrorAlert(errors.email.message)}
             </div>
-            <div className="flex items-center border-b-2 border-[#055c36]">
+            <div className="relative flex items-center border-b-2 border-[#055c36]">
               <label htmlFor="password" className="mr-2">
                 Password<span className="text-red-500">*</span>
               </label>
@@ -108,10 +111,16 @@ const Register = () => {
                       "Password must contain at least one capital letter and one special character (! @ # $ % ^ & *)",
                   },
                 })}
-                type="password"
+                type={showPassword?"text":"password"}
                 placeholder="Enter a password"
                 className="p-2 flex-grow bg-transparent"
               />
+              <span
+                className="absolute right-2 bottom-3"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {!showPassword ? <FaEye /> : <FaEyeSlash />}
+              </span>
               {errors.password && showErrorAlert(errors.password.message)}
             </div>
             <div className="form-control">
@@ -122,6 +131,14 @@ const Register = () => {
               />
             </div>
           </form>
+          <div>
+            <p>
+              Already have an Account?
+              <Link to="/login" className="underline p-2">
+                Sign In now!
+              </Link>
+            </p>
+          </div>
         </div>
         <img
           src={loginImg}
