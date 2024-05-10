@@ -1,13 +1,19 @@
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import loginImg from "../../assets/images/login.svg";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
+import { updateProfile } from "firebase/auth";
 const Register = () => {
+  const { createUser } = useContext(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -17,7 +23,36 @@ const Register = () => {
       password: "",
     },
   });
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    // console.log(data);
+    const name = data.name;
+    const photo = data.photo;
+    const email = data.email;
+    const password = data.password;
+    createUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        // console.log(user);
+        updateProfile(user, { displayName: name, photoURL: photo });
+        Swal.fire({
+          title: "Success!",
+          text: `Welcome ${user.displayName ? user.displayName : user.email}`,
+          icon: "success",
+          confirmButtonText: "Cool",
+        });
+        reset();
+        navigate(location?.state ? location.state : "/");
+      })
+      .catch((err) => {
+        console.error(err);
+        Swal.fire({
+          title: "Error!",
+          text: `${err.message}`,
+          icon: "error",
+          confirmButtonText: "Try Again",
+        });
+      });
+  };
   const [showPassword, setShowPassword] = useState(false);
   // Display SweetAlert error for form validation
   const showErrorAlert = (errorMessage) => {
@@ -111,7 +146,7 @@ const Register = () => {
                       "Password must contain at least one capital letter and one special character (! @ # $ % ^ & *)",
                   },
                 })}
-                type={showPassword?"text":"password"}
+                type={showPassword ? "text" : "password"}
                 placeholder="Enter a password"
                 className="p-2 flex-grow bg-transparent"
               />
