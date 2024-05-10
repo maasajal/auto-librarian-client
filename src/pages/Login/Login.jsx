@@ -6,10 +6,21 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 const Login = () => {
-    const { logInUser, signInWithGoogle, signInWithGithub, loading } =
+  const { logInUser, signInWithGoogle, signInWithGithub, loading } =
     useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  // Display SweetAlert error for form validation
+  const showErrorAlert = (errorMessage) => {
+    Swal.fire({
+      title: "Error!",
+      text: errorMessage,
+      icon: "error",
+      confirmButtonText: "Try Again",
+    });
+  };
+
   const {
     register,
     handleSubmit,
@@ -51,15 +62,29 @@ const Login = () => {
         });
       });
   };
-  const [showPassword, setShowPassword] = useState(false);
-  // Display SweetAlert error for form validation
-  const showErrorAlert = (errorMessage) => {
-    Swal.fire({
-      title: "Error!",
-      text: errorMessage,
-      icon: "error",
-      confirmButtonText: "Try Again",
-    });
+
+  const handleGoogleSignIn = () => {
+    signInWithGoogle()
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        Swal.fire({
+          title: "Success!",
+          text: `Welcome ${user.displayName ? user.displayName : user.email}`,
+          icon: "success",
+          confirmButtonText: "Cool",
+        });
+        navigate(location?.state ? location.state : "/");
+      })
+      .catch((error) => {
+        console.error(error);
+        Swal.fire({
+          title: "Error!",
+          text: `${error.message}`,
+          icon: "error",
+          confirmButtonText: "Try Again",
+        });
+      });
   };
 
   return (
@@ -133,7 +158,7 @@ const Login = () => {
           </form>
           <div className="divider">OR Login With</div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <button className="btn bg-gradient-to-r from-[#727d61] to-[#055c36] text-white">
+            <button onClick={handleGoogleSignIn} className="btn bg-gradient-to-r from-[#727d61] to-[#055c36] text-white">
               <FaGoogle /> Google
             </button>
             <button className="btn bg-gradient-to-r from-[#727d61] to-[#055c36] text-white">
