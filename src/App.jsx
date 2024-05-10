@@ -5,13 +5,13 @@ import Footer from "./components/Footer/Footer";
 
 function App() {
   return (
-    <>
+    <div className="font-Lato">
       <Navbar />
-      <div>
+      <div className="max-w-7xl mx-auto px-3 md:px-8 lg:px-14">
         <Outlet />
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
 

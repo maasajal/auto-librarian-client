@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <div>
-      <footer className="flex flex-wrap flex-col text-center md:flex-row justify-between gap-8 md:text-start py-10 px-8 md:px-28 bg-neutral text-white mt-10">
+      <footer className="flex flex-wrap flex-col text-center md:flex-row justify-between gap-8 md:text-start py-10 px-8 md:px-14 bg-[#727d61] text-white mt-10">
         <aside>
           <img src={logo} alt="Car doctor logo" className="w-40 rounded-3xl" />
           <p className="py-5 leading-6 max-w-sm">
@@ -60,7 +60,7 @@ const Footer = () => {
           </div>
         </nav>
       </footer>
-      <footer className="footer footer-center p-4 bg-neutral text-white border-t border-[#055c36]">
+      <footer className="footer footer-center p-4 bg-[#727d61] text-white border-t border-[#055c36]">
         <aside>
           <p>
             Copyright © 2024 - All right reserved by{" "}

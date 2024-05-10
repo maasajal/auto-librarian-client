@@ -19,7 +19,7 @@ const Navbar = () => {
     </>
   );
   return (
-    <div className="navbar py-5 md:py-10 md:px-24">
+    <div className="navbar py-5 md:py-10 md:px-14">
       <div className="navbar-start">
         <div className="dropdown text-[#055c36]">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -53,7 +53,9 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1 text-[#055c36]">{navLinks}</ul>
       </div>
       <div className="navbar-end user flex gap-7">
-        <Link className="btn btn-outline text-[#055c36] px-5">Login</Link>
+        <Link to="/login" className="btn btn-outline text-[#055c36] px-5">
+          Login
+        </Link>
       </div>
     </div>
   );
