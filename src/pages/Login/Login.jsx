@@ -2,12 +2,18 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import loginImg from "../../assets/images/login.svg";
 import { FaEye, FaEyeSlash, FaGithub, FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
 const Login = () => {
+    const { logInUser, signInWithGoogle, signInWithGithub, loading } =
+    useContext(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -15,7 +21,36 @@ const Login = () => {
       password: "",
     },
   });
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    // console.log(data)
+    const email = data.email;
+    const password = data.password;
+
+    logInUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        // console.log(user);
+        Swal.fire({
+          title: "Success!",
+          text: `Welcome back ${
+            user.displayName ? user.displayName : user.email
+          }`,
+          icon: "success",
+          confirmButtonText: "Cool",
+        });
+        reset();
+        navigate(location?.state ? location.state : "/");
+      })
+      .catch((error) => {
+        console.error(error);
+        Swal.fire({
+          title: "Error!",
+          text: `${error.message}`,
+          icon: "error",
+          confirmButtonText: "Try Again",
+        });
+      });
+  };
   const [showPassword, setShowPassword] = useState(false);
   // Display SweetAlert error for form validation
   const showErrorAlert = (errorMessage) => {
