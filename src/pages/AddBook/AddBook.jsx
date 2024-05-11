@@ -3,10 +3,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 const AddBook = () => {
+  const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
+
   const schema = yup
     .object({
-      photo: yup.string().required(),
+      image: yup.string().required(),
       category: yup.string().required(),
       name: yup.string().required(),
       authorName: yup.string().required(),
@@ -17,7 +21,6 @@ const AddBook = () => {
     })
     .required();
 
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -27,7 +30,7 @@ const AddBook = () => {
     resolver: yupResolver(schema),
     defaultValues: {
       name: "",
-      photo: "",
+      image: "",
       category: "",
       authorName: "",
       quantity: "",
@@ -38,14 +41,30 @@ const AddBook = () => {
   });
   const onSubmit = (data) => {
     console.log(data);
-    const photo = data.photo;
-    const category = data.category;
-    const name = data.name;
-    const authorName = data.authorName;
-    const quantity = data.quantity;
-    const rating = data.rating;
-    const description = data.description;
-    const aboutBook = data.aboutBook;
+    try {
+      const response = axiosSecure.post("/books", data);
+      console.log(response);
+      const result = response.data;
+      console.log(result);
+      //   reset();
+      if (data.insertedId) {
+        Swal.fire({
+          title: "Success!",
+          text: "New book added successfully!",
+          icon: "success",
+          confirmButtonText: "Cool",
+        });
+        navigate("/all-book");
+      }
+    } catch (err) {
+      //   console.log(err);
+      Swal.fire({
+        title: "Error!",
+        text: `An error occurred while adding book. Please try again. ${err.message}`,
+        icon: "error",
+        confirmButtonText: "Try Again",
+      });
+    }
   };
   // Display SweetAlert error for form validation
   const showErrorAlert = (errorMessage) => {
@@ -58,7 +77,7 @@ const AddBook = () => {
   };
 
   return (
-    <div>
+    <div className="max-w-7xl mx-auto px-3 md:px-8 lg:px-14">
       <div className="max-w-lg mx-auto text-center space-y-4">
         <h1 className="text-3xl font-bold font-PlayFair text-center">
           Add an Interesting Book
@@ -76,19 +95,19 @@ const AddBook = () => {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="flex items-center border-b-2 border-[#055c36]">
-                <label htmlFor="photo" className="mr-2">
+                <label htmlFor="image" className="mr-2">
                   Photo URL<span className="text-red-500">*</span>
                 </label>
                 <input
-                  id="photo"
-                  {...register("photo", {
+                  id="image"
+                  {...register("image", {
                     required: "Photo is required!",
                   })}
                   type="text"
                   placeholder="Enter book photo url"
                   className="p-2 flex-grow bg-transparent"
                 />
-                {errors.photo && showErrorAlert(errors.photo.message)}
+                {errors.image && showErrorAlert(errors.image.message)}
               </div>
               <div className="flex items-center border-b-2 border-[#055c36]">
                 <label htmlFor="category" className="mr-2">

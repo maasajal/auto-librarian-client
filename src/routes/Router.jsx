@@ -6,6 +6,10 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import AddBook from "../pages/AddBook/AddBook";
 import PrivateRoute from "./PrivateRoute";
+import axios from "axios";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+
+const axiosSecure = useAxiosSecure();
 
 const router = createBrowserRouter([
   {
@@ -16,6 +20,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+        loader: () => axiosSecure.get("/book-categories"),
       },
       {
         path: "/register",
