@@ -8,6 +8,7 @@ import AddBook from "../pages/AddBook/AddBook";
 import PrivateRoute from "./PrivateRoute";
 import axios from "axios";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import AllBooks from "../pages/AllBooks/AllBooks";
 
 const axiosSecure = useAxiosSecure();
 
@@ -37,6 +38,15 @@ const router = createBrowserRouter([
             <AddBook />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/all-books",
+        element: (
+          <PrivateRoute>
+            <AllBooks />
+          </PrivateRoute>
+        ),
+        loader: () => axiosSecure.get("/books"),
       },
     ],
   },

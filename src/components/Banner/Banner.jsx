@@ -46,7 +46,7 @@ const Banner = ({ sliderData }) => {
                     </h1>
                     <Bounce>
                       <Link
-                        to={`/book-categories/${book.category}`}
+                        to={`/book-categories/${book.category.toLowerCase()}`}
                         className="btn px-6 border-none text-white uppercase bg-gradient-to-br from-[#055c36] to-[#727d61]"
                       >
                         {book.button}

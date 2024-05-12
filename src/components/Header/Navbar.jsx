@@ -28,8 +28,8 @@ const Navbar = () => {
       <li key="add-book" className="hover:text-white">
         <NavLink to="/add-book">Add book</NavLink>
       </li>
-      <li key="all-book" className="hover:text-white">
-        <NavLink to="/all-book">All Books</NavLink>
+      <li key="all-books" className="hover:text-white">
+        <NavLink to="/all-books">All Books</NavLink>
       </li>
       <li key="borrowed-books" className="hover:text-white">
         <NavLink to="/borrowed-books">Borrowed Books</NavLink>
