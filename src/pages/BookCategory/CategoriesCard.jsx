@@ -17,7 +17,7 @@ const CategoriesCard = ({ categoryBook }) => {
           <span>Rating: {rating}</span>
           <Rating initialRating={rating} readonly />
         </p>
-        <div className="card-actions grid grid-cols-1 md:grid-cols-2">
+        <div className="card-actions">
           <Link to={`/book/${_id}`} className="btn btn-outline">
             View Details
           </Link>
