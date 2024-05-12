@@ -79,8 +79,10 @@ const UpdateBook = () => {
           Update the Book
         </h1>
         <p>
-          Expand our literary universe by adding a new book. Contribute to our
-          collection and share the joy of reading with others.
+          UpdateBook component is designed to facilitate the seamless
+          modification of book details through a form interface, ensuring
+          efficient management and accurate representation of book information
+          within the library system.
         </p>
       </div>
       <div className="flex flex-col md:flex-row items-center justify-between gap-8 py-20">

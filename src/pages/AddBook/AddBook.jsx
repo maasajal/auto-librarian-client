@@ -39,22 +39,17 @@ const AddBook = () => {
       aboutBook: "",
     },
   });
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
     try {
-      const response = axiosSecure.post("/books", data);
-      console.log(response);
-      const result = response.data;
-      console.log(result);
-      //   reset();
-      if (data.insertedId) {
+      const response = await axiosSecure.post("/books", data);
+      if (response.data.insertedId) {
         Swal.fire({
           title: "Success!",
           text: "New book added successfully!",
           icon: "success",
           confirmButtonText: "Cool",
         });
-        navigate("/all-book");
+        navigate("/all-books");
       }
     } catch (err) {
       //   console.log(err);
