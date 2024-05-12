@@ -10,6 +10,7 @@ import useAxiosSecure from "../hooks/useAxiosSecure";
 import AllBooks from "../pages/AllBooks/AllBooks";
 import UpdateBook from "../pages/UpdateBook/UpdateBook";
 import BookCategory from "../pages/BookCategory/BookCategory";
+import BookDetails from "../pages/BookDetails/BookDetails";
 
 const axiosSecure = useAxiosSecure();
 
@@ -39,6 +40,16 @@ const router = createBrowserRouter([
             <BookCategory />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/book/:id",
+        element: (
+          <PrivateRoute>
+            <BookDetails />
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/books/${params.id}`),
       },
       {
         path: "/add-book",
