@@ -1,10 +1,15 @@
 import Rating from "react-rating";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { MdDeleteOutline } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const BookCard = ({ allBooks, allBookList, setAllBookList }) => {
+    const axiosSecure = useAxiosSecure();
   const handleDelete = async (id) => {
     console.log("Delete", id);
+    const url = `/books/${id}`;
     const result = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -17,22 +22,15 @@ const BookCard = ({ allBooks, allBookList, setAllBookList }) => {
 
     if (result.isConfirmed) {
       try {
-        const response = await fetch(
-          `http://localhost:5000/books/${id}`,
-          {
-            method: "DELETE",
-          }
-        );
-        const data = await response.json();
-        console.log(data);
-        if (data.deletedCount > 0) {
+        const response = await axiosSecure.delete(url);
+        if (response.data.deletedCount > 0) {
           Swal.fire({
             title: "Deleted!",
             text: "Item deleted successfully!",
             icon: "success",
           });
           const remainingItems = await allBookList.filter(
-            (craft) => craft._id !== id
+            (book) => book._id !== id
           );
           setAllBookList(remainingItems);
         }
@@ -60,10 +58,10 @@ const BookCard = ({ allBooks, allBookList, setAllBookList }) => {
             onClick={() => handleDelete(allBooks._id)}
             className="btn btn-outline"
           >
-            Delete
+            <MdDeleteOutline className="text-2xl" /> Delete
           </Link>
-          <Link to={`/update/${allBooks._id}`} className="btn btn-outline">
-            Update
+          <Link to={`/update-book/${allBooks._id}`} className="btn btn-outline">
+            <FaEdit className="text-lg" /> Update
           </Link>
         </div>
       </div>

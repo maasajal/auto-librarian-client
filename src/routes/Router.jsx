@@ -6,9 +6,9 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import AddBook from "../pages/AddBook/AddBook";
 import PrivateRoute from "./PrivateRoute";
-import axios from "axios";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import AllBooks from "../pages/AllBooks/AllBooks";
+import UpdateBook from "../pages/UpdateBook/UpdateBook";
 
 const axiosSecure = useAxiosSecure();
 
@@ -47,6 +47,16 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: () => axiosSecure.get("/books"),
+      },
+      {
+        path: "/update-book/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateBook />
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/books/${params.id}`),
       },
     ],
   },
