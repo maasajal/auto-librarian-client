@@ -9,6 +9,7 @@ import PrivateRoute from "./PrivateRoute";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import AllBooks from "../pages/AllBooks/AllBooks";
 import UpdateBook from "../pages/UpdateBook/UpdateBook";
+import BookCategory from "../pages/BookCategory/BookCategory";
 
 const axiosSecure = useAxiosSecure();
 
@@ -30,6 +31,14 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/books/:category",
+        element: (
+          <PrivateRoute>
+            <BookCategory />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/add-book",

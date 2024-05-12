@@ -11,7 +11,7 @@ const BookCategoryCard = ({ categoryBook }) => {
         <h2 className="card-title font-bold font-PlayFair">{category}</h2>
         <div className="card-actions">
           <Link
-            to={`/books/category/${category.toLowerCase()}`}
+            to={`/books/${category.toLowerCase()}`}
             className="btn bg-gradient-to-br from-[#055c36] to-[#727d61] text-white"
           >
             {button}
