@@ -1,10 +1,10 @@
 import { useLoaderData } from "react-router-dom";
 import BookCard from "./BookCard";
+import { useState } from "react";
 
 const AllBooks = () => {
   const getAllBooks = useLoaderData();
-  const allBooks = getAllBooks.data;
-  console.log(allBooks);
+  const [allBookList, setAllBookList] = useState(getAllBooks.data);
   return (
     <div className="max-w-7xl mx-auto px-3 md:px-8 lg:px-14">
       <div className="max-w-lg mx-auto text-center space-y-4">
@@ -18,8 +18,13 @@ const AllBooks = () => {
         </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-16">
-        {allBooks.map((book) => (
-          <BookCard key={book._id} allBooks={book} />
+        {allBookList.map((book) => (
+          <BookCard
+            key={book._id}
+            allBooks={book}
+            allBookList={allBookList}
+            setAllBookList={setAllBookList}
+          />
         ))}
       </div>
     </div>
