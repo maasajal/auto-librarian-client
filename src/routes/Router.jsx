@@ -11,6 +11,7 @@ import AllBooks from "../pages/AllBooks/AllBooks";
 import UpdateBook from "../pages/UpdateBook/UpdateBook";
 import BookCategory from "../pages/BookCategory/BookCategory";
 import BookDetails from "../pages/BookDetails/BookDetails";
+import BorrowedBooks from "../pages/BorrowedBooks/BorrowedBooks";
 
 const axiosSecure = useAxiosSecure();
 
@@ -52,6 +53,15 @@ const router = createBrowserRouter([
           fetch(`${import.meta.env.VITE_API_URL}/books/${params.id}`),
       },
       {
+        path: "/borrowed-books",
+        element: (
+          <PrivateRoute>
+            <BorrowedBooks />
+          </PrivateRoute>
+        ),
+        loader: () => axiosSecure.get("/borrow-books"),
+      },
+      {
         path: "/add-book",
         element: (
           <PrivateRoute>
@@ -76,7 +86,7 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/books/${params.id}`),
+          fetch(`${import.meta.env.VITE_API_URL}/books/${params.id}`),
       },
     ],
   },
