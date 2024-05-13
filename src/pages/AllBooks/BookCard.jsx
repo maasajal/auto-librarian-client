@@ -6,7 +6,7 @@ import { FaEdit } from "react-icons/fa";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const BookCard = ({ allBooks, allBookList, setAllBookList }) => {
-    const axiosSecure = useAxiosSecure();
+  const axiosSecure = useAxiosSecure();
   const handleDelete = async (id) => {
     console.log("Delete", id);
     const url = `/books/${id}`;
@@ -47,7 +47,7 @@ const BookCard = ({ allBooks, allBookList, setAllBookList }) => {
       </figure>
       <div className="card-body">
         <h2 className="card-title">{allBooks.name}</h2>
-        <p>By: {allBooks.authorName}</p>
+        <p>By: {allBooks.author_name}</p>
         <p>{allBooks.category}</p>
         <p className="flex items-center gap-3">
           <span>Rating: {allBooks.rating}</span>

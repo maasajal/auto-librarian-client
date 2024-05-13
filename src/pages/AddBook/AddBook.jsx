@@ -13,18 +13,17 @@ const AddBook = () => {
       image: yup.string().required(),
       category: yup.string().required(),
       name: yup.string().required(),
-      authorName: yup.string().required(),
+      author_name: yup.string().required(),
       quantity: yup.number().positive().integer().required(),
       rating: yup.number().integer().required(),
       description: yup.string().required(),
-      aboutBook: yup.string().required(),
+      contents: yup.string().required(),
     })
     .required();
 
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -32,11 +31,11 @@ const AddBook = () => {
       name: "",
       image: "",
       category: "",
-      authorName: "",
+      author_name: "",
       quantity: "",
       rating: "",
       description: "",
-      aboutBook: "",
+      contents: "",
     },
   });
   const onSubmit = async (data) => {
@@ -140,12 +139,12 @@ const AddBook = () => {
                 {errors.name && showErrorAlert(errors.name.message)}
               </div>
               <div className="flex items-center border-b-2 border-[#055c36]">
-                <label htmlFor="authorName" className="mr-2">
+                <label htmlFor="author_name" className="mr-2">
                   Author Name<span className="text-red-500">*</span>
                 </label>
                 <input
-                  id="authorName"
-                  {...register("authorName", {
+                  id="author_name"
+                  {...register("author_name", {
                     required: {
                       value: true,
                       message: "Book author name is required!",
@@ -155,7 +154,8 @@ const AddBook = () => {
                   placeholder="Enter Book author name"
                   className="p-2 flex-grow bg-transparent"
                 />
-                {errors.authorName && showErrorAlert(errors.authorName.message)}
+                {errors.author_name &&
+                  showErrorAlert(errors.author_name.message)}
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -222,18 +222,18 @@ const AddBook = () => {
                   showErrorAlert(errors.description.message)}
               </div>
               <div className="flex items-center border-b-2 border-[#055c36]">
-                <label htmlFor="aboutBook" className="mr-2">
-                  About Book<span className="text-red-500">*</span>
+                <label htmlFor="contents" className="mr-2">
+                  Book Contents<span className="text-red-500">*</span>
                 </label>
                 <textarea
-                  id="aboutBook"
-                  {...register("aboutBook", {
-                    required: "About book is required!",
+                  id="contents"
+                  {...register("contents", {
+                    required: "Book Contents is required!",
                   })}
                   placeholder="Enter something about the book"
                   className="p-2 flex-grow bg-transparent"
                 />
-                {errors.aboutBook && showErrorAlert(errors.aboutBook.message)}
+                {errors.contents && showErrorAlert(errors.contents.message)}
               </div>
             </div>
             <div className="form-control">

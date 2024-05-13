@@ -4,29 +4,36 @@ import * as yup from "yup";
 import Rating from "react-rating";
 import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 const BookDetails = () => {
   const bookDetails = useLoaderData();
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
+  const [startDate, setStartDate] = useState(new Date());
+  const [returnDate, setReturnDate] = useState(new Date());
+
   const {
     _id,
     image,
     name,
-    authorName,
+    author_name,
     category,
     quantity,
     rating,
     description,
-    aboutBook,
+    contents,
   } = bookDetails;
 
   const schema = yup
     .object({
+      borrow_date: yup.date().required(),
       return_date: yup.date().required(),
       name: yup.string().required(),
       email: yup.string().required(),
@@ -41,13 +48,18 @@ const BookDetails = () => {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      return_date: "",
-      name: `${user.displayName}`,
+      return_date: `${returnDate}`,
+      image: `${image}`,
+      name: `${name}`,
+      category: `${category}`,
+      borrow_date: `${startDate}`,
+      display_name: `${user.displayName}`,
       email: `${user.email}`,
     },
   });
 
   const onSubmit = async (data) => {
+    console.log(data);
     try {
       const response = await axiosSecure.post("/borrow-books", data);
       if (response.data.insertedId) {
@@ -100,7 +112,7 @@ const BookDetails = () => {
           </figure>
           <div className="card-body">
             <h2 className="card-title">Book Name: {name}</h2>
-            <p>Author Name: {authorName}</p>
+            <p>Author Name: {author_name}</p>
             <p>Category: {category}</p>
             <p>Available of the book: {quantity} pcs</p>
             <p className="flex items-center gap-3">
@@ -108,7 +120,7 @@ const BookDetails = () => {
               <Rating initialRating={rating} readonly />
             </p>
             <p>Short Description: {description} </p>
-            <p>About Book: {aboutBook} </p>
+            <p>Book Contents: {contents} </p>
             <div className="card-actions grid grid-cols-1 md:grid-cols-2">
               <label htmlFor="borrow_modals" className="btn btn-outline">
                 Borrow Book
@@ -135,6 +147,17 @@ const BookDetails = () => {
                     onSubmit={handleSubmit(onSubmit)}
                     className="space-y-5"
                   >
+                    {/* Sending this data to borrowed_books collection */}
+                    <div className="hidden">
+                      <input type="text" {...register("image")} /> <br />
+                      <input type="text" {...register("name")} /> <br />
+                      <input type="text" {...register("category")} /> <br />
+                      <DatePicker
+                        {...register("borrow_date")}
+                        selected={startDate}
+                        onChange={(date) => setStartDate(date)}
+                      />
+                    </div>
                     <div className="flex items-center border-b-2 border-[#055c36]">
                       <label htmlFor="return_date" className="mr-2">
                         Book Return Date<span className="text-red-500">*</span>
@@ -154,22 +177,23 @@ const BookDetails = () => {
                         showErrorAlert(errors.return_date.message)}
                     </div>
                     <div className="flex items-center border-b-2 border-[#055c36]">
-                      <label htmlFor="name" className="mr-2">
+                      <label htmlFor="display_name" className="mr-2">
                         User Name<span className="text-red-500">*</span>
                       </label>
                       <input
-                        id="name"
-                        {...register("name", {
+                        id="display_name"
+                        {...register("display_name", {
                           required: {
                             value: true,
-                            message: "Book Name is required!",
+                            message: "Name is required!",
                           },
                         })}
                         type="text"
                         disabled
                         className="p-2 flex-grow bg-transparent"
                       />
-                      {errors.name && showErrorAlert(errors.name.message)}
+                      {errors.display_name &&
+                        showErrorAlert(errors.display_name.message)}
                     </div>
                     <div className="flex items-center border-b-2 border-[#055c36]">
                       <label htmlFor="email" className="mr-2">

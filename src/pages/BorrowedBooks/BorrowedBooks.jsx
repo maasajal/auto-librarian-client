@@ -29,14 +29,13 @@ const BorrowedBooks = () => {
               <figure className="w-1/4">
                 <img src={book?.image} alt={book?.name} />
               </figure>
-              <div className="card-body space-y-5">
+              <div className="card-body space-y-3">
                 <h2 className="card-title">{book?.name}</h2>
-                <p>By: {book?.email}</p>
                 <p>Category: {book?.category}</p>
                 <p>
                   Borrowed Date:{" "}
                   <span className="bg-gradient-to-r from-[#055c36] to-[#727d61] text-white p-2 rounded-xl">
-                    {book?.return_date}
+                    {book?.borrow_date}
                   </span>{" "}
                 </p>
                 <p>

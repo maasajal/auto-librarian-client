@@ -14,11 +14,11 @@ const UpdateBook = () => {
       image: yup.string().required(),
       category: yup.string().required(),
       name: yup.string().required(),
-      authorName: yup.string().required(),
+      author_name: yup.string().required(),
       quantity: yup.number().positive().integer().required(),
       rating: yup.number().integer().required(),
       description: yup.string().required(),
-      aboutBook: yup.string().required(),
+      contents: yup.string().required(),
     })
     .required();
 
@@ -32,11 +32,11 @@ const UpdateBook = () => {
       name: `${editBook.name}`,
       image: `${editBook.image}`,
       category: `${editBook.category}`,
-      authorName: `${editBook.authorName}`,
+      author_name: `${editBook.author_name}`,
       quantity: `${editBook.quantity}`,
       rating: `${editBook.rating}`,
       description: `${editBook.description}`,
-      aboutBook: `${editBook.aboutBook}`,
+      contents: `${editBook.contents}`,
     },
   });
   const url = `/books/${editBook._id}`;
@@ -143,12 +143,12 @@ const UpdateBook = () => {
                 {errors.name && showErrorAlert(errors.name.message)}
               </div>
               <div className="flex items-center border-b-2 border-[#055c36]">
-                <label htmlFor="authorName" className="mr-2">
+                <label htmlFor="author_name" className="mr-2">
                   Author Name<span className="text-red-500">*</span>
                 </label>
                 <input
-                  id="authorName"
-                  {...register("authorName", {
+                  id="author_name"
+                  {...register("author_name", {
                     required: {
                       value: true,
                       message: "Book author name is required!",
@@ -158,7 +158,8 @@ const UpdateBook = () => {
                   placeholder="Enter Book author name"
                   className="p-2 flex-grow bg-transparent"
                 />
-                {errors.authorName && showErrorAlert(errors.authorName.message)}
+                {errors.author_name &&
+                  showErrorAlert(errors.author_name.message)}
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -225,18 +226,18 @@ const UpdateBook = () => {
                   showErrorAlert(errors.description.message)}
               </div>
               <div className="flex items-center border-b-2 border-[#055c36]">
-                <label htmlFor="aboutBook" className="mr-2">
-                  About Book<span className="text-red-500">*</span>
+                <label htmlFor="contents" className="mr-2">
+                  Book Contents<span className="text-red-500">*</span>
                 </label>
                 <textarea
-                  id="aboutBook"
-                  {...register("aboutBook", {
-                    required: "About book is required!",
+                  id="contents"
+                  {...register("contents", {
+                    required: "Book Contents is required!",
                   })}
                   placeholder="Enter something about the book"
                   className="p-2 flex-grow bg-transparent"
                 />
-                {errors.aboutBook && showErrorAlert(errors.aboutBook.message)}
+                {errors.contents && showErrorAlert(errors.contents.message)}
               </div>
             </div>
             <div className="form-control">
