@@ -17,7 +17,6 @@ const BookDetails = () => {
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
   const [startDate, setStartDate] = useState(new Date());
-  const [returnDate, setReturnDate] = useState(new Date());
 
   const {
     _id,
@@ -48,7 +47,7 @@ const BookDetails = () => {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      return_date: `${returnDate}`,
+      return_date: null,
       image: `${image}`,
       name: `${name}`,
       category: `${category}`,
@@ -58,11 +57,11 @@ const BookDetails = () => {
     },
   });
 
-  const onSubmit = async (data) => {
-    console.log(data);
+  const onSubmit = async (newData) => {
+    // console.log(data);
     try {
-      const response = await axiosSecure.post("/borrow-books", data);
-      if (response.data.insertedId) {
+      const { data } = await axiosSecure.post("/borrow-books", newData);
+      if (data.insertedId) {
         Swal.fire({
           title: "Success!",
           text: "Borrow book successfully!",
@@ -70,8 +69,9 @@ const BookDetails = () => {
           confirmButtonText: "Cool",
         });
         reset();
-        navigate(`/book/${_id}`);
+        navigate(`/borrowed-books`);
       }
+
     } catch (err) {
       //   console.log(err);
       Swal.fire({
@@ -91,6 +91,12 @@ const BookDetails = () => {
       icon: "error",
       confirmButtonText: "Try Again",
     });
+  };
+
+  const handleQuantity = async (id, quantity) => {
+    console.log(id, quantity);
+    const { data } = await axiosSecure.patch(`/books/${id}`, { quantity });
+    console.log(data);
   };
 
   return (
@@ -167,7 +173,7 @@ const BookDetails = () => {
                         {...register("return_date", {
                           required: {
                             value: true,
-                            message: "Book return_date is required!",
+                            message: "Book return date is required!",
                           },
                         })}
                         type="date"
@@ -215,7 +221,10 @@ const BookDetails = () => {
                     </div>
                     {/* if there is a button in form, it will close the modal */}
                     <div className="flex justify-between items-center mt-10">
-                      <button className="btn bg-gradient-to-r from-[#727d61] to-[#055c36] text-white">
+                      <button
+                        onClick={() => handleQuantity(_id, quantity)}
+                        className="btn bg-gradient-to-r from-[#727d61] to-[#055c36] text-white"
+                      >
                         Submit
                       </button>
                       <label

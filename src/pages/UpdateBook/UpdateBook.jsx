@@ -40,10 +40,10 @@ const UpdateBook = () => {
     },
   });
   const url = `/books/${editBook._id}`;
-  const onSubmit = async (data) => {
+  const onSubmit = async (newData) => {
     try {
-      const response = await axiosSecure.put(url, data);
-      if (response.data.modifiedCount > 0) {
+      const { data } = await axiosSecure.put(url, newData);
+      if (data.modifiedCount > 0) {
         Swal.fire({
           title: "Success!",
           text: "Update item successfully!",

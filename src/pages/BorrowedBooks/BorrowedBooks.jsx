@@ -1,22 +1,67 @@
-import { useContext, useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const BorrowedBooks = () => {
-  const borrowedBooks = useLoaderData();
   const { user } = useContext(AuthContext);
-  const myBorrowList = borrowedBooks.data.filter(
-    (book) => book.email === user.email
-  );
-  const [borrowList, setBorrowList] = useState(myBorrowList);
+  const axiosSecure = useAxiosSecure();
+  const [borrowList, setBorrowList] = useState([]);
 
-  console.log(myBorrowList);
+  const getBorrowedBooks = async () => {
+    const { data } = await axiosSecure(`/borrowed-books/${user.email}`);
+    // console.log(data);
+    setBorrowList(data);
+  };
+  useEffect(() => {
+    getBorrowedBooks();
+  }, [user]);
+  //   console.log(myBorrowList);
+
+  const handleReturn = async (id) => {
+    console.log("Return", id);
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, return it!",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const { data } = await axiosSecure.delete(`/borrowed-books/${id}`);
+        if (data.deletedCount > 0) {
+          Swal.fire({
+            title: "Return!",
+            text: "Book return successfully!",
+            icon: "success",
+          });
+          getBorrowedBooks();
+        }
+      } catch (error) {
+        console.error("Error returning item:", error);
+        Swal.fire({
+          title: "Error!",
+          text: `An error occurred: ${error.message}`,
+          icon: "error",
+          confirmButtonText: "Try Again",
+        });
+      }
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-3 md:px-8 lg:px-14">
       <div className="my-20">
         <div className="max-w-lg mx-auto text-center space-y-4">
           <h1 className="text-3xl font-bold font-PlayFair text-center">
-            Borrow book items
+            Borrowed book {borrowList.length > 1 ? "items" : "item"}:{" "}
+            <span className="bg-[#055c36] text-white p-2 rounded-xl">
+              {borrowList.length}
+            </span>
           </h1>
           <p>
             Explore the collection of borrowed books and manage your reading
@@ -25,7 +70,10 @@ const BorrowedBooks = () => {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 my-24">
           {borrowList.map((book) => (
-            <div className="card card-side bg-base-100 shadow-xl">
+            <div
+              className="card card-side bg-base-100 shadow-xl border border-[#055c36]"
+              key={book._id}
+            >
               <figure className="w-1/4">
                 <img src={book?.image} alt={book?.name} />
               </figure>
@@ -35,17 +83,20 @@ const BorrowedBooks = () => {
                 <p>
                   Borrowed Date:{" "}
                   <span className="bg-gradient-to-r from-[#055c36] to-[#727d61] text-white p-2 rounded-xl">
-                    {book?.borrow_date}
+                    {new Date(book.borrow_date).toDateString()}
                   </span>{" "}
                 </p>
                 <p>
                   Return Date:{" "}
                   <span className="bg-gradient-to-r from-[#055c36] to-[#727d61] text-white p-2 rounded-xl">
-                    {book?.return_date}
+                    {new Date(book.return_date).toDateString()}
                   </span>{" "}
                 </p>
                 <div className="card-actions">
-                  <button className="btn bg-gradient-to-r from-[#055c36] to-[#727d61] text-white w-full">
+                  <button
+                    onClick={() => handleReturn(book._id)}
+                    className="btn bg-gradient-to-r from-[#055c36] to-[#727d61] text-white w-full"
+                  >
                     Return
                   </button>
                 </div>

@@ -9,7 +9,6 @@ const BookCard = ({ allBooks, allBookList, setAllBookList }) => {
   const axiosSecure = useAxiosSecure();
   const handleDelete = async (id) => {
     console.log("Delete", id);
-    const url = `/books/${id}`;
     const result = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -22,8 +21,8 @@ const BookCard = ({ allBooks, allBookList, setAllBookList }) => {
 
     if (result.isConfirmed) {
       try {
-        const response = await axiosSecure.delete(url);
-        if (response.data.deletedCount > 0) {
+        const { data } = await axiosSecure.delete(`/books/${id}`);
+        if (data.deletedCount > 0) {
           Swal.fire({
             title: "Deleted!",
             text: "Item deleted successfully!",
@@ -41,7 +40,7 @@ const BookCard = ({ allBooks, allBookList, setAllBookList }) => {
   };
 
   return (
-    <div className="card card-side bg-base-100 shadow-xl">
+    <div className="card card-side bg-base-100 shadow-xl border border-[#055c36]">
       <figure className="w-1/4">
         <img src={allBooks.image} alt={allBooks.name} />
       </figure>

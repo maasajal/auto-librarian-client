@@ -38,10 +38,10 @@ const AddBook = () => {
       contents: "",
     },
   });
-  const onSubmit = async (data) => {
+  const onSubmit = async (newData) => {
     try {
-      const response = await axiosSecure.post("/books", data);
-      if (response.data.insertedId) {
+      const { data } = await axiosSecure.post("/books", newData);
+      if (data.insertedId) {
         Swal.fire({
           title: "Success!",
           text: "New book added successfully!",

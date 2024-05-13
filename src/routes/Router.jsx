@@ -12,6 +12,7 @@ import UpdateBook from "../pages/UpdateBook/UpdateBook";
 import BookCategory from "../pages/BookCategory/BookCategory";
 import BookDetails from "../pages/BookDetails/BookDetails";
 import BorrowedBooks from "../pages/BorrowedBooks/BorrowedBooks";
+import AllBooksByLibrarian from "../pages/AllBooks/AllBooksByLibrarian";
 
 const axiosSecure = useAxiosSecure();
 
@@ -59,7 +60,6 @@ const router = createBrowserRouter([
             <BorrowedBooks />
           </PrivateRoute>
         ),
-        loader: () => axiosSecure.get("/borrow-books"),
       },
       {
         path: "/add-book",
@@ -77,6 +77,14 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: () => axiosSecure.get("/books"),
+      },
+      {
+        path: "/all-books/:email",
+        element: (
+          <PrivateRoute>
+            <AllBooksByLibrarian />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/update-book/:id",

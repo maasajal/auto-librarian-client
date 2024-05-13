@@ -9,8 +9,8 @@ const BookCategory = () => {
   const [bookCategory, setBookCategory] = useState([]);
   useEffect(() => {
     const fetchCategoryBooks = async () => {
-      const response = await axiosSecure.get("/books");
-      setBookCategory(response.data);
+      const { data } = await axiosSecure.get("/books");
+      setBookCategory(data);
     };
     fetchCategoryBooks();
   }, [category, bookCategory]);

@@ -2,17 +2,14 @@ import { useLoaderData } from "react-router-dom";
 import BookCard from "./BookCard";
 import { useState } from "react";
 
-const AllBooks = () => {
+const AllBooksByLibrarian = () => {
   const getAllBooks = useLoaderData();
   const [allBookList, setAllBookList] = useState(getAllBooks.data);
   return (
     <div className="max-w-7xl mx-auto px-3 md:px-8 lg:px-14">
       <div className="max-w-lg mx-auto text-center space-y-4">
         <h1 className="text-3xl font-bold font-PlayFair text-center">
-          All Books from Auto Librarian{" "}
-          <span className="bg-[#055c36] text-white p-2 rounded-xl">
-            {allBookList.length}
-          </span>
+          All Books handle by Auto Librarian
         </h1>
         <p>
           Explore a diverse collection of captivating books spanning various
@@ -33,4 +30,4 @@ const AllBooks = () => {
     </div>
   );
 };
-export default AllBooks;
+export default AllBooksByLibrarian;
