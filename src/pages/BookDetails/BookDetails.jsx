@@ -113,7 +113,7 @@ const BookDetails = () => {
             experience for every literary enthusiast.
           </p>
         </div>
-        <div className="card card-side bg-base-100 border shadow-xl">
+        <div className="card card-side border border-[#055c36] shadow-xl">
           <figure className="w-1/3">
             <img src={image} alt={name} />
           </figure>
@@ -137,7 +137,7 @@ const BookDetails = () => {
               <label
                 htmlFor="borrow_modals"
                 disabled={quantity < 1}
-                className="btn btn-outline"
+                className="btn btn-outline text-[#055c36]"
               >
                 Borrow Book
               </label>

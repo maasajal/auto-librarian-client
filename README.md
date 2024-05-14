@@ -1,8 +1,46 @@
-# React + Vite
+# Auto Librarian is an e-Library
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## [Private Client side Repo Link](https://github.com/Porgramming-Hero-web-course/b9a11-client-side-maasajal)
 
-Currently, two official plugins are available:
+## [Private Server side Repo Link](https://github.com/Porgramming-Hero-web-course/b9a11-server-side-maasajal)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Live Client Site Link: [https://auto-e-librarian.web.app](https://auto-e-librarian.web.app)
+
+## Live Server Site Link: [https://auto-librarian.vercel.app](https://auto-librarian.vercel.app)
+
+## Assignment_ID:
+
+- assignment_category_0008
+
+## About the project
+
+Auto Librarian is an innovative e-library project designed to revolutionize the way users access and interact with digital books. Here's a brief overview highlighting its key features:
+
+- Extensive Digital Collection: Access a vast collection of digital books covering various genres, authors, and topics, providing users with a diverse reading experience.
+- User-Friendly Interface: Navigate through the e-library seamlessly with an intuitive and user-friendly interface, making it easy for users to discover, borrow, and enjoy their favorite books.
+- Multiple Viewing Options: Choose between Card View and Table View to customize the display of books based on personal preferences, enhancing the browsing experience.
+- Interactive Borrowing System: Borrow books directly from the platform with a simple click, allowing users to enjoy their selected titles hassle-free and track their borrowing history.
+- Secure Authentication: Ensure user data security and privacy with secure authentication mechanisms, including JWT tokens, providing a safe and reliable environment for users to explore and engage with the e-library.
+
+### Features and Packages
+
+- Swiper Slider
+- Sweet Alert Toaster
+- React Hook Form
+- User register using Firebase auth
+- User login using email and password
+- Login with Google
+- Login with GitHub
+- Mongodb database
+- Node.js server
+- Methods: ["GET", "POST", "PUT", "DELETE", "PATCH"]
+- View details for login user
+- Borrow and Return book for login user
+- JsonWebToken (jwt)
+
+### Challenge Requirements
+
+1. Use the JWT token for doing the CRUD operations in the `All Books` and `Add Book` routes.
+2. Filter by “Show available books” on the All Books page. By clicking this button, only available books will be shown.
+3. Card View and Table View Implement on the All Books page.
+4. Implementing a dark/light theme toggle for the all pages.

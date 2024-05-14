@@ -5,7 +5,7 @@ const CategoriesCard = ({ categoryBook }) => {
   const { _id, image, name, author_name, category, rating } = categoryBook;
 
   return (
-    <div className="card card-side bg-base-100 shadow-xl">
+    <div className="card card-side border border-[#055c36] shadow-xl">
       <figure className="w-1/4">
         <img src={image} alt={name} />
       </figure>
@@ -18,7 +18,7 @@ const CategoriesCard = ({ categoryBook }) => {
           <Rating initialRating={rating} readonly />
         </p>
         <div className="card-actions">
-          <Link to={`/book/${_id}`} className="btn btn-outline">
+          <Link to={`/book/${_id}`} className="btn btn-outline text-[#055c36]">
             View Details
           </Link>
         </div>

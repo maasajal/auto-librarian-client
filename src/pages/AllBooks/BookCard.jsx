@@ -40,7 +40,7 @@ const BookCard = ({ allBooks, allBookList, setAllBookList }) => {
   };
 
   return (
-    <div className="card card-side bg-base-100 shadow-xl border border-[#055c36]">
+    <div className="card card-side shadow-xl border border-[#055c36]">
       <figure className="w-1/4">
         <img src={allBooks.image} alt={allBooks.name} />
       </figure>
@@ -55,11 +55,11 @@ const BookCard = ({ allBooks, allBookList, setAllBookList }) => {
         <div className="card-actions grid grid-cols-1 md:grid-cols-2">
           <Link
             onClick={() => handleDelete(allBooks._id)}
-            className="btn btn-outline"
+            className="btn btn-outline text-[#055c36]"
           >
             <MdDeleteOutline className="text-2xl" /> Delete
           </Link>
-          <Link to={`/update-book/${allBooks._id}`} className="btn btn-outline">
+          <Link to={`/update-book/${allBooks._id}`} className="btn btn-outline text-[#055c36]">
             <FaEdit className="text-lg" /> Update
           </Link>
         </div>

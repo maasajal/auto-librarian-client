@@ -73,7 +73,7 @@ const BorrowedBooks = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 my-24">
           {borrowList.map((book) => (
             <div
-              className="card card-side bg-base-100 shadow-xl border border-[#055c36]"
+              className="card card-side shadow-xl border border-[#055c36]"
               key={book._id}
             >
               <figure className="w-1/4">

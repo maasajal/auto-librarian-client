@@ -43,7 +43,7 @@ const TableViews = ({ allBookList, setAllBookList }) => {
     <div className="overflow-x-auto">
       <table className="table">
         {/* head */}
-        <thead>
+        <thead className="text-[#055c36] text-lg">
           <tr>
             <th>Serial</th>
             <th>Book Photo, Name & Category</th>

@@ -4,7 +4,8 @@ import "./Navbar.css";
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
-const Navbar = () => {
+import { MdDarkMode, MdLightMode } from "react-icons/md";
+const Navbar = ({ dark, toggleTheme }) => {
   const { user, logOut, loading } = useContext(AuthContext);
   const handleSignOut = () => {
     logOut()
@@ -37,7 +38,11 @@ const Navbar = () => {
     </>
   );
   return (
-    <div className="navbar py-5 md:py-5 md:px-14">
+    <div
+      className={`navbar py-5 md:py-5 md:px-14 ${
+        dark ? "bg-slate-800" : "bg-white"
+      }`}
+    >
       <div className="navbar-start">
         <div className="dropdown text-[#055c36]">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -71,6 +76,15 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1 text-[#055c36]">{navLinks}</ul>
       </div>
       <div className="navbar-end user flex gap-7">
+        {/* Dark and light theme */}
+        <button onClick={toggleTheme}>
+          {dark ? (
+            <MdLightMode className="text-2xl" />
+          ) : (
+            <MdDarkMode className="text-2xl" />
+          )}
+        </button>
+
         {user && (
           <div
             className="dropdown dropdown-end mr-1 tooltip tooltip-bottom tooltip-primary z-10"
