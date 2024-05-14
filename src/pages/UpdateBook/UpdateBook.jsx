@@ -9,6 +9,7 @@ const UpdateBook = () => {
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const editBook = useLoaderData();
+  const { category } = editBook;
   const schema = yup
     .object({
       image: yup.string().required(),
@@ -111,15 +112,23 @@ const UpdateBook = () => {
                 <label htmlFor="category" className="mr-2">
                   Category<span className="text-red-500">*</span>
                 </label>
-                <input
+                <select
                   id="category"
                   {...register("category", {
                     required: "Category is required!",
                   })}
                   type="text"
-                  placeholder="Enter book category"
-                  className="p-2  flex-grow bg-transparent"
-                />
+                  className="p-2 flex-grow bg-transparent"
+                >
+                  <option disabled>{category}</option>
+                  <option value="Novel">Novel</option>
+                  <option value="Thriller">Thriller</option>
+                  <option value="History">History</option>
+                  <option value="Drama">Drama</option>
+                  <option value="Sci-Fi">Sci-Fi</option>
+                  <option value="Fantasy">Fantasy</option>
+                  <option value="Romance">Romance</option>
+                </select>
                 {errors.category && showErrorAlert(errors.category.message)}
               </div>
             </div>
