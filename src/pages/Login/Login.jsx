@@ -70,52 +70,62 @@ const Login = () => {
     }
   };
 
-  const handleGoogleSignIn = () => {
-    signInWithGoogle()
-      .then((result) => {
-        const user = result.user;
-        console.log(user);
-        Swal.fire({
-          title: "Success!",
-          text: `Welcome ${user.displayName ? user.displayName : user.email}`,
-          icon: "success",
-          confirmButtonText: "Cool",
-        });
-        navigate(location?.state ? location.state : "/");
-      })
-      .catch((error) => {
-        console.error(error);
-        Swal.fire({
-          title: "Error!",
-          text: `${error.message}`,
-          icon: "error",
-          confirmButtonText: "Try Again",
-        });
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithGoogle();
+      const user = result.user;
+      await axiosSecure.post(
+        "/jwt",
+        {
+          email: user?.email,
+        },
+        { withCredentials: true }
+      );
+      Swal.fire({
+        title: "Success!",
+        text: `Welcome ${user.displayName ? user.displayName : user.email}`,
+        icon: "success",
+        confirmButtonText: "Cool",
       });
+      navigate(location?.state ? location.state : "/");
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        title: "Error!",
+        text: `${error.message}`,
+        icon: "error",
+        confirmButtonText: "Try Again",
+      });
+    }
   };
 
-  const handleGithubSignIn = () => {
-    signInWithGithub()
-      .then((result) => {
-        const user = result.user;
-        console.log(user);
-        Swal.fire({
-          title: "Success!",
-          text: `Welcome ${user.displayName ? user.displayName : user.email}`,
-          icon: "success",
-          confirmButtonText: "Cool",
-        });
-        navigate(location?.state ? location.state : "/");
-      })
-      .catch((error) => {
-        console.error(error);
-        Swal.fire({
-          title: "Error!",
-          text: `${error.message}`,
-          icon: "error",
-          confirmButtonText: "Try Again",
-        });
+  const handleGithubSignIn = async () => {
+    try {
+      const result = await signInWithGithub();
+      const user = result.user;
+      await axiosSecure.post(
+        "/jwt",
+        {
+          email: user?.email,
+        },
+        { withCredentials: true }
+      );
+      Swal.fire({
+        title: "Success!",
+        text: `Welcome ${user.displayName ? user.displayName : user.email}`,
+        icon: "success",
+        confirmButtonText: "Cool",
       });
+      navigate(location?.state ? location.state : "/");
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        title: "Error!",
+        text: `${error.message}`,
+        icon: "error",
+        confirmButtonText: "Try Again",
+      });
+    }
   };
 
   return (
