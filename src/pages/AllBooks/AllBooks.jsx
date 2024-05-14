@@ -1,13 +1,21 @@
+import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import BookCard from "./BookCard";
-import { useState } from "react";
-
+import TableViews from "./TableViews";
 const AllBooks = () => {
   const getAllBooks = useLoaderData();
   const [allBookList, setAllBookList] = useState(getAllBooks.data);
+  const [views, setViews] = useState(true);
+  
   const handleFilter = () => {
     const showAvailableBook = allBookList.filter((book) => book.quantity > 0);
     setAllBookList(showAvailableBook);
+  };
+  const handleCardView = () => {
+    setViews(true);
+  };
+  const handleTableView = () => {
+    setViews(false);
   };
   return (
     <div className="max-w-7xl mx-auto px-3 md:px-8 lg:px-14">
@@ -38,7 +46,7 @@ const AllBooks = () => {
           <div
             tabIndex={0}
             role="button"
-            className="btn m-1 text-2xl font-PlayFair"
+            className="btn m-1 text-2xl font-PlayFair bg-[#055c36] text-white"
           >
             View by:
           </div>
@@ -47,18 +55,17 @@ const AllBooks = () => {
             className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-full"
           >
             <li>
-              <a>Card View</a>
+              <a onClick={handleCardView}>Card View</a>
             </li>
             <li>
-              <a>Table View</a>
+              <a onClick={handleTableView}>Table View</a>
             </li>
           </ul>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-16">
-        {allBookList
-          //   .filter((book) => book.quantity > 0)
-          .map((book) => (
+      {views ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-16">
+          {allBookList.map((book) => (
             <BookCard
               key={book._id}
               allBooks={book}
@@ -66,7 +73,15 @@ const AllBooks = () => {
               setAllBookList={setAllBookList}
             />
           ))}
-      </div>
+        </div>
+      ) : (
+        <div className="my-14">
+          <TableViews
+            allBookList={allBookList}
+            setAllBookList={setAllBookList}
+          />
+        </div>
+      )}
     </div>
   );
 };
