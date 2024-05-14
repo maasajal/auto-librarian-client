@@ -9,7 +9,9 @@ const BorrowedBooks = () => {
   const [borrowList, setBorrowList] = useState([]);
 
   const getBorrowedBooks = async () => {
-    const { data } = await axiosSecure(`/borrowed-books/${user.email}`);
+    const { data } = await axiosSecure(`/borrowed-books/${user.email}`, {
+      withCredentials: true,
+    });
     // console.log(data);
     setBorrowList(data);
   };

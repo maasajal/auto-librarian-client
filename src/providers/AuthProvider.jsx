@@ -11,6 +11,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import app from "../firebase/firebase.config";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 export const AuthContext = createContext(null);
 const googleProvider = new GoogleAuthProvider();
@@ -20,6 +21,7 @@ const AuthProvider = ({ children }) => {
   const auth = getAuth(app);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const axiosSecure = useAxiosSecure();
 
   const createUser = (email, password) => {
     setLoading(true);
@@ -53,8 +55,9 @@ const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, githubProvider);
   };
   // Sign Out user
-  const logOut = () => {
+  const logOut = async () => {
     setLoading(true);
+    await axiosSecure("/logout", { withCredentials: true });
     return signOut(auth);
   };
   useEffect(() => {
