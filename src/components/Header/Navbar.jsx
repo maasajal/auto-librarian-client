@@ -116,7 +116,7 @@ const Navbar = ({ dark, toggleTheme }) => {
             >
               <li>
                 <NavLink to="/add-book" className="py-3 hover:text-white">
-                  All Book
+                  Add Book
                 </NavLink>
               </li>
               <li>

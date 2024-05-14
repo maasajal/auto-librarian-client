@@ -4,12 +4,23 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useEffect, useState } from "react";
 
 const UpdateBook = () => {
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const editBook = useLoaderData();
   const { category } = editBook;
+  const [booksCategory, setBooksCategory] = useState([]);
+  const getBooks = async () => {
+    const { data } = await axiosSecure.get("/book-categories");
+    console.log(data);
+    setBooksCategory(data);
+  };
+  useEffect(() => {
+    getBooks();
+  }, []);
+
   const schema = yup
     .object({
       image: yup.string().required(),
@@ -121,13 +132,11 @@ const UpdateBook = () => {
                   className="p-2 flex-grow bg-transparent"
                 >
                   <option disabled>{category}</option>
-                  <option value="Novel">Novel</option>
-                  <option value="Thriller">Thriller</option>
-                  <option value="History">History</option>
-                  <option value="Drama">Drama</option>
-                  <option value="Sci-Fi">Sci-Fi</option>
-                  <option value="Fantasy">Fantasy</option>
-                  <option value="Romance">Romance</option>
+                  {booksCategory.map((book) => (
+                    <option key={book._id} value={book.category}>
+                      {book.category}
+                    </option>
+                  ))}
                 </select>
                 {errors.category && showErrorAlert(errors.category.message)}
               </div>
