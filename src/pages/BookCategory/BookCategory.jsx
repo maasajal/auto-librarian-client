@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import CategoriesCard from "./CategoriesCard";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { Helmet } from "react-helmet";
+import { Slide } from "react-awesome-reveal";
 
 const BookCategory = () => {
   const category = useParams();
@@ -23,16 +24,18 @@ const BookCategory = () => {
         <title>Book Category | Auto Librarian</title>
       </Helmet>
       <div className="my-20">
-        <div className="max-w-lg mx-auto text-center space-y-4">
-          <h1 className="text-3xl font-bold font-PlayFair text-center">
-            Category book items
-          </h1>
-          <p>
-            Explore a diverse collection of captivating books spanning various
-            genres, authors, and themes, offering an enriching reading
-            experience for every literary enthusiast.
-          </p>
-        </div>
+        <Slide direction="up">
+          <div className="max-w-lg mx-auto text-center space-y-4">
+            <h1 className="text-3xl font-bold font-PlayFair text-center">
+              Category book items
+            </h1>
+            <p>
+              Explore a diverse collection of captivating books spanning various
+              genres, authors, and themes, offering an enriching reading
+              experience for every literary enthusiast.
+            </p>
+          </div>
+        </Slide>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 my-24">
           {bookCategory
             .filter(

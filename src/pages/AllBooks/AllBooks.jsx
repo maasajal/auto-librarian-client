@@ -4,6 +4,7 @@ import BookCard from "./BookCard";
 import TableViews from "./TableViews";
 import { AuthContext } from "../../providers/AuthProvider";
 import { Helmet } from "react-helmet";
+import { Slide } from "react-awesome-reveal";
 
 const AllBooks = () => {
   const getAllBooks = useLoaderData();
@@ -31,49 +32,55 @@ const AllBooks = () => {
         <meta charSet="utf-8" />
         <title>All Books | Auto Librarian</title>
       </Helmet>
-      <div className="max-w-lg mx-auto text-center space-y-4">
-        <h1 className="text-3xl font-bold font-PlayFair text-center">
-          All Books from Auto Librarian{" "}
-          <span className="bg-[#055c36] text-white p-2 rounded-xl">
-            {allBookList.length}
-          </span>
-        </h1>
-        <p>
-          Explore a diverse collection of captivating books spanning various
-          genres, authors, and themes, offering an enriching reading experience
-          for every literary enthusiast.
-        </p>
-      </div>
+      <Slide direction="up">
+        <div className="max-w-lg mx-auto text-center space-y-4">
+          <h1 className="text-3xl font-bold font-PlayFair text-center">
+            All Books from Auto Librarian{" "}
+            <span className="bg-[#055c36] text-white p-2 rounded-xl">
+              {allBookList.length}
+            </span>
+          </h1>
+          <p>
+            Explore a diverse collection of captivating books spanning various
+            genres, authors, and themes, offering an enriching reading
+            experience for every literary enthusiast.
+          </p>
+        </div>
+      </Slide>
       <div className="flex justify-between">
-        <div className="space-y-3">
-          <h3 className="text-2xl font-PlayFair">Filter by: </h3>
-          <button
-            onClick={handleFilter}
-            className="btn bg-[#055c36] text-white"
-          >
-            Show available books
-          </button>
-        </div>
-        <div className="dropdown dropdown-hover">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn m-1 text-2xl font-PlayFair bg-[#055c36] text-white"
-          >
-            View by:
+        <Slide direction="right">
+          <div className="space-y-3">
+            <h3 className="text-2xl font-PlayFair">Filter by: </h3>
+            <button
+              onClick={handleFilter}
+              className="btn bg-[#055c36] text-white"
+            >
+              Show available books
+            </button>
           </div>
-          <ul
-            tabIndex={0}
-            className="dropdown-content z-[1] menu p-2 rounded-box w-full"
-          >
-            <li>
-              <a onClick={handleCardView}>Card View</a>
-            </li>
-            <li>
-              <a onClick={handleTableView}>Table View</a>
-            </li>
-          </ul>
-        </div>
+        </Slide>
+        <Slide direction="left">
+          <div className="dropdown dropdown-hover">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn m-1 text-2xl font-PlayFair bg-[#055c36] text-white"
+            >
+              View by:
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content z-[1] menu p-2 rounded-box w-full"
+            >
+              <li>
+                <a onClick={handleCardView}>Card View</a>
+              </li>
+              <li>
+                <a onClick={handleTableView}>Table View</a>
+              </li>
+            </ul>
+          </div>
+        </Slide>
       </div>
       {views ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-16">

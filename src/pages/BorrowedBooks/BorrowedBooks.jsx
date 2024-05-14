@@ -3,6 +3,7 @@ import { AuthContext } from "../../providers/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet";
+import { Slide } from "react-awesome-reveal";
 
 const BorrowedBooks = () => {
   const { user } = useContext(AuthContext);
@@ -64,50 +65,56 @@ const BorrowedBooks = () => {
         <title>Borrowed Books - {user.displayName} </title>
       </Helmet>
       <div className="my-20">
-        <div className="max-w-lg mx-auto text-center space-y-4">
-          <h1 className="text-3xl font-bold font-PlayFair text-center">
-            Borrowed book {borrowList.length > 1 ? "items" : "item"}:{" "}
-            <span className="bg-[#055c36] text-white p-2 rounded-xl">
-              {borrowList.length}
-            </span>
-          </h1>
-          <p>
-            Explore the collection of borrowed books and manage your reading
-            list effortlessly on the borrowed books page.
-          </p>
-        </div>
+        <Slide direction="up">
+          <div className="max-w-lg mx-auto text-center space-y-4">
+            <h1 className="text-3xl font-bold font-PlayFair text-center">
+              Borrowed book {borrowList.length > 1 ? "items" : "item"}:{" "}
+              <span className="bg-[#055c36] text-white p-2 rounded-xl">
+                {borrowList.length}
+              </span>
+            </h1>
+            <p>
+              Explore the collection of borrowed books and manage your reading
+              list effortlessly on the borrowed books page.
+            </p>
+          </div>
+        </Slide>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 my-24">
           {borrowList.map((book) => (
             <div
               className="card card-side shadow-xl border border-[#055c36]"
               key={book._id}
             >
-              <figure className="w-1/4">
-                <img src={book?.image} alt={book?.name} />
+              <figure className="w-1/3">
+                <Slide direction="up">
+                  <img src={book?.image} alt={book?.name} />
+                </Slide>
               </figure>
               <div className="card-body space-y-3">
-                <h2 className="card-title">{book?.name}</h2>
-                <p>Category: {book?.category}</p>
-                <p>
-                  Borrowed Date:{" "}
-                  <span className="bg-gradient-to-r from-[#055c36] to-[#727d61] text-white p-2 rounded-xl">
-                    {new Date(book.borrow_date).toDateString()}
-                  </span>{" "}
-                </p>
-                <p>
-                  Return Date:{" "}
-                  <span className="bg-gradient-to-r from-[#055c36] to-[#727d61] text-white p-2 rounded-xl">
-                    {new Date(book.return_date).toDateString()}
-                  </span>{" "}
-                </p>
-                <div className="card-actions">
-                  <button
-                    onClick={() => handleReturn(book.id)}
-                    className="btn bg-gradient-to-r from-[#055c36] to-[#727d61] text-white w-full"
-                  >
-                    Return
-                  </button>
-                </div>
+                <Slide direction="up">
+                  <h2 className="card-title">{book?.name}</h2>
+                  <p>Category: {book?.category}</p>
+                  <p>
+                    Borrowed Date:{" "}
+                    <span className="bg-gradient-to-r from-[#055c36] to-[#727d61] text-white p-2 rounded-xl">
+                      {new Date(book.borrow_date).toDateString()}
+                    </span>{" "}
+                  </p>
+                  <p>
+                    Return Date:{" "}
+                    <span className="bg-gradient-to-r from-[#055c36] to-[#727d61] text-white p-2 rounded-xl">
+                      {new Date(book.return_date).toDateString()}
+                    </span>{" "}
+                  </p>
+                  <div className="card-actions">
+                    <button
+                      onClick={() => handleReturn(book.id)}
+                      className="btn bg-gradient-to-r from-[#055c36] to-[#727d61] text-white w-full"
+                    >
+                      Return
+                    </button>
+                  </div>
+                </Slide>
               </div>
             </div>
           ))}
