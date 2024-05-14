@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 const AddBook = () => {
@@ -74,6 +75,10 @@ const AddBook = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-3 md:px-8 lg:px-14">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Add Book | Auto Librarian</title>
+      </Helmet>
       <div className="max-w-lg mx-auto text-center space-y-4">
         <h1 className="text-3xl font-bold font-PlayFair text-center">
           Add an Interesting Book

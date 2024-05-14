@@ -7,6 +7,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import { updateProfile } from "firebase/auth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { Helmet } from "react-helmet";
 const Register = () => {
   const { createUser } = useContext(AuthContext);
   const location = useLocation();
@@ -75,6 +76,10 @@ const Register = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-3 md:px-8 lg:px-14">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Register for Membership</title>
+      </Helmet>
       <div className="max-w-lg mx-auto text-center space-y-4">
         <h1 className="text-3xl font-bold font-PlayFair text-center">
           Register Membership

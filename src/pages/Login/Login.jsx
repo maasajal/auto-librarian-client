@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { Helmet } from "react-helmet";
 const Login = () => {
   const { logInUser, signInWithGoogle, signInWithGithub, loading } =
     useContext(AuthContext);
@@ -130,6 +131,10 @@ const Login = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-3 md:px-8 lg:px-14">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Login to borrow books</title>
+      </Helmet>
       <div className="max-w-lg mx-auto text-center space-y-4">
         <h1 className="text-3xl font-bold font-PlayFair text-center">
           Login Member

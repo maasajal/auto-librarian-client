@@ -5,6 +5,7 @@ import * as yup from "yup";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 
 const UpdateBook = () => {
   const axiosSecure = useAxiosSecure();
@@ -86,6 +87,10 @@ const UpdateBook = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-3 md:px-8 lg:px-14">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Update book info</title>
+      </Helmet>
       <div className="max-w-lg mx-auto text-center space-y-4">
         <h1 className="text-3xl font-bold font-PlayFair text-center">
           Update the Book

@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet";
 
 const BorrowedBooks = () => {
   const { user } = useContext(AuthContext);
@@ -58,6 +59,10 @@ const BorrowedBooks = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-3 md:px-8 lg:px-14">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Borrowed Books - {user.displayName} </title>
+      </Helmet>
       <div className="my-20">
         <div className="max-w-lg mx-auto text-center space-y-4">
           <h1 className="text-3xl font-bold font-PlayFair text-center">

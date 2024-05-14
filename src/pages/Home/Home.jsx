@@ -3,6 +3,7 @@ import Banner from "../../components/Banner/Banner";
 import { useEffect, useState } from "react";
 import BookCategoryCard from "../../components/BookCategories/BookCategoryCard";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { Helmet } from "react-helmet";
 
 const Home = () => {
   const axiosSecure = useAxiosSecure();
@@ -19,6 +20,10 @@ const Home = () => {
 
   return (
     <div>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Home | Auto Librarian</title>
+      </Helmet>
       <Banner sliderData={bookCategory} />
       <div className="max-w-7xl mx-auto px-3 md:px-8 lg:px-14">
         <div className="my-24">

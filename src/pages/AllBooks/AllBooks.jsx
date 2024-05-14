@@ -3,6 +3,7 @@ import { useLoaderData } from "react-router-dom";
 import BookCard from "./BookCard";
 import TableViews from "./TableViews";
 import { AuthContext } from "../../providers/AuthProvider";
+import { Helmet } from "react-helmet";
 
 const AllBooks = () => {
   const getAllBooks = useLoaderData();
@@ -26,6 +27,10 @@ const AllBooks = () => {
   };
   return (
     <div className="max-w-7xl mx-auto px-3 md:px-8 lg:px-14 my-20">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>All Books | Auto Librarian</title>
+      </Helmet>
       <div className="max-w-lg mx-auto text-center space-y-4">
         <h1 className="text-3xl font-bold font-PlayFair text-center">
           All Books from Auto Librarian{" "}

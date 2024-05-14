@@ -10,6 +10,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { Helmet } from "react-helmet";
 
 const BookDetails = () => {
   const bookDetails = useLoaderData();
@@ -138,6 +139,10 @@ const BookDetails = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-3 md:px-8 lg:px-14">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Details - {name}</title>
+      </Helmet>
       <div className="my-20">
         <div className="max-w-lg mx-auto text-center space-y-2">
           <h1 className="text-3xl font-bold font-PlayFair text-center">

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CategoriesCard from "./CategoriesCard";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { Helmet } from "react-helmet";
 
 const BookCategory = () => {
   const category = useParams();
@@ -17,6 +18,10 @@ const BookCategory = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-3 md:px-8 lg:px-14">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Book Category | Auto Librarian</title>
+      </Helmet>
       <div className="my-20">
         <div className="max-w-lg mx-auto text-center space-y-4">
           <h1 className="text-3xl font-bold font-PlayFair text-center">
