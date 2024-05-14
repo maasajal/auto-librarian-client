@@ -7,7 +7,7 @@ const Footer = () => {
     <div>
       <Zoom>
         <footer className="flex flex-wrap flex-col text-center md:flex-row justify-between gap-8 md:text-start py-10 px-8 md:px-14 bg-[#727d61] text-white mt-10">
-          <aside>
+          <aside className="flex flex-col items-center justify-center mx-auto md:items-start">
             <img
               src={logo}
               alt="Car doctor logo"
