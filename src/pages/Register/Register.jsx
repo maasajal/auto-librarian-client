@@ -6,10 +6,12 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import { updateProfile } from "firebase/auth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 const Register = () => {
   const { createUser } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
   const {
     register,
     handleSubmit,
@@ -23,35 +25,42 @@ const Register = () => {
       password: "",
     },
   });
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     // console.log(data);
     const name = data.name;
     const photo = data.photo;
     const email = data.email;
     const password = data.password;
-    createUser(email, password)
-      .then((result) => {
-        const user = result.user;
-        // console.log(user);
-        updateProfile(user, { displayName: name, photoURL: photo });
-        Swal.fire({
-          title: "Success!",
-          text: `Welcome ${user.displayName ? user.displayName : user.email}`,
-          icon: "success",
-          confirmButtonText: "Cool",
-        });
-        reset();
-        navigate(location?.state ? location.state : "/");
-      })
-      .catch((err) => {
-        console.error(err);
-        Swal.fire({
-          title: "Error!",
-          text: `${err.message}`,
-          icon: "error",
-          confirmButtonText: "Try Again",
-        });
+    try {
+      const response = await createUser(email, password);
+      const user = response.user;
+      // console.log(user);
+      updateProfile(user, { displayName: name, photoURL: photo });
+      const { data } = await axiosSecure.post(
+        "/jwt",
+        {
+          email: user?.email,
+        },
+        { withCredentials: true }
+      );
+
+      Swal.fire({
+        title: "Success!",
+        text: `Welcome ${user.displayName ? user.displayName : user.email}`,
+        icon: "success",
+        confirmButtonText: "Cool",
       });
+      reset();
+      navigate(location?.state ? location.state : "/");
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        title: "Error!",
+        text: `${err.message}`,
+        icon: "error",
+        confirmButtonText: "Try Again",
+      });
+    }
   };
   const [showPassword, setShowPassword] = useState(false);
   // Display SweetAlert error for form validation

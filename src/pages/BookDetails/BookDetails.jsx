@@ -34,6 +34,7 @@ const BookDetails = () => {
     .object({
       borrow_date: yup.date().required(),
       return_date: yup.date().required(),
+      id: yup.string().required(),
       name: yup.string().required(),
       email: yup.string().required(),
     })
@@ -47,6 +48,7 @@ const BookDetails = () => {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
+      id: `${_id}`,
       return_date: null,
       image: `${image}`,
       name: `${name}`,
@@ -71,7 +73,6 @@ const BookDetails = () => {
         reset();
         navigate(`/borrowed-books`);
       }
-
     } catch (err) {
       //   console.log(err);
       Swal.fire({
@@ -127,8 +128,17 @@ const BookDetails = () => {
             </p>
             <p>Short Description: {description} </p>
             <p>Book Contents: {contents} </p>
-            <div className="card-actions grid grid-cols-1 md:grid-cols-2">
-              <label htmlFor="borrow_modals" className="btn btn-outline">
+            <div
+              className="card-actions grid grid-cols-1 md:grid-cols-2"
+              title={
+                quantity < 1 ? "Book is not available!" : "Borrow the Book!"
+              }
+            >
+              <label
+                htmlFor="borrow_modals"
+                disabled={quantity < 1}
+                className="btn btn-outline"
+              >
                 Borrow Book
               </label>
             </div>
@@ -155,6 +165,7 @@ const BookDetails = () => {
                   >
                     {/* Sending this data to borrowed_books collection */}
                     <div className="hidden">
+                      <input type="text" {...register("id")} /> <br />
                       <input type="text" {...register("image")} /> <br />
                       <input type="text" {...register("name")} /> <br />
                       <input type="text" {...register("category")} /> <br />

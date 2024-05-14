@@ -25,7 +25,6 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
-        loader: () => axiosSecure.get("/book-categories"),
       },
       {
         path: "/register",

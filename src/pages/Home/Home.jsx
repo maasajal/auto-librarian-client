@@ -1,16 +1,25 @@
 import { useLoaderData } from "react-router";
 import Banner from "../../components/Banner/Banner";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BookCategoryCard from "../../components/BookCategories/BookCategoryCard";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Home = () => {
-  const data = useLoaderData();
-  const books = data.data;
-  const [bookCategory, setBookCategory] = useState(books);
-  // console.log(books);
+  const axiosSecure = useAxiosSecure();
+  const [bookCategory, setBookCategory] = useState([]);
+
+  const getAllBooks = async () => {
+    const { data } = await axiosSecure.get("/book-categories");
+    setBookCategory(data);
+  };
+
+  useEffect(() => {
+    getAllBooks();
+  }, []);
+
   return (
     <div>
-      <Banner sliderData={books} />
+      <Banner sliderData={bookCategory} />
       <div className="max-w-7xl mx-auto px-3 md:px-8 lg:px-14">
         <div className="my-24">
           <div className="max-w-lg mx-auto text-center space-y-4">

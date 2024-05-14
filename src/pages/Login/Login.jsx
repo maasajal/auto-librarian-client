@@ -5,9 +5,11 @@ import { FaEye, FaEyeSlash, FaGithub, FaGoogle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 const Login = () => {
   const { logInUser, signInWithGoogle, signInWithGithub, loading } =
     useContext(AuthContext);
+  const axiosSecure = useAxiosSecure();
   const location = useLocation();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -32,35 +34,40 @@ const Login = () => {
       password: "",
     },
   });
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     // console.log(data)
     const email = data.email;
     const password = data.password;
 
-    logInUser(email, password)
-      .then((result) => {
-        const user = result.user;
-        // console.log(user);
-        Swal.fire({
-          title: "Success!",
-          text: `Welcome back ${
-            user.displayName ? user.displayName : user.email
-          }`,
-          icon: "success",
-          confirmButtonText: "Cool",
-        });
-        reset();
-        navigate(location?.state ? location.state : "/");
-      })
-      .catch((error) => {
-        console.error(error);
-        Swal.fire({
-          title: "Error!",
-          text: `${error.message}`,
-          icon: "error",
-          confirmButtonText: "Try Again",
-        });
+    try {
+      const response = await logInUser(email, password);
+      const user = response.user;
+      const { data } = await axiosSecure.post(
+        "/jwt",
+        {
+          email: user?.email,
+        },
+        { withCredentials: true }
+      );
+      Swal.fire({
+        title: "Success!",
+        text: `Welcome back ${
+          user.displayName ? user.displayName : user.email
+        }`,
+        icon: "success",
+        confirmButtonText: "Cool",
       });
+      reset();
+      navigate(location?.state ? location.state : "/");
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        title: "Error!",
+        text: `${error.message}`,
+        icon: "error",
+        confirmButtonText: "Try Again",
+      });
+    }
   };
 
   const handleGoogleSignIn = () => {
