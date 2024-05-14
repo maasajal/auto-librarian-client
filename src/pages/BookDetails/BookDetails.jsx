@@ -4,7 +4,7 @@ import * as yup from "yup";
 import Rating from "react-rating";
 import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import DatePicker from "react-datepicker";
@@ -17,6 +17,19 @@ const BookDetails = () => {
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
   const [startDate, setStartDate] = useState(new Date());
+  const [borrowQuantity, setBorrowQuantity] = useState([]);
+  const bbId = borrowQuantity.map((bookId) => bookId.id);
+  console.log(bbId);
+
+  const getBorrowedBooks = async () => {
+    const { data } = await axiosSecure.get(`/borrowed-books/${user.email}`, {
+      withCredentials: true,
+    });
+    setBorrowQuantity(data);
+  };
+  useEffect(() => {
+    getBorrowedBooks();
+  }, [user]);
 
   const {
     _id,
@@ -62,16 +75,21 @@ const BookDetails = () => {
   const onSubmit = async (newData) => {
     // console.log(data);
     try {
-      const { data } = await axiosSecure.post("/borrow-books", newData);
-      if (data.insertedId) {
-        Swal.fire({
-          title: "Success!",
-          text: "Borrow book successfully!",
-          icon: "success",
-          confirmButtonText: "Cool",
-        });
-        reset();
-        navigate(`/borrowed-books`);
+      if (bbId) {
+        const { data } = await axiosSecure.post("/borrow-books", newData);
+        if (data.insertedId) {
+          Swal.fire({
+            title: "Success!",
+            text: "Borrow book successfully!",
+            icon: "success",
+            confirmButtonText: "Cool",
+          });
+          reset();
+          navigate(`/borrowed-books`);
+        }
+      } else {
+        showErrorAlert("Borrowing not allow for a book twice");
+        // return;
       }
     } catch (err) {
       //   console.log(err);
@@ -95,15 +113,33 @@ const BookDetails = () => {
   };
 
   const handleQuantity = async (id, quantity) => {
-    console.log(id, quantity);
-    const { data } = await axiosSecure.patch(`/books/${id}`, { quantity });
-    console.log(data);
+    // console.log(id, quantity);
+    const borrowId = borrowQuantity.map((bookId) => bookId.id === id);
+    console.log(borrowId);
+    // {
+    //   !bbId
+    //     ? await axiosSecure.patch(`/borrow-book/${id}`, {
+    //         quantity,
+    //       })
+    //     : showErrorAlert("Borrowing not allow for a book twice");
+    // }
+    // if (!bbId) {
+    //   showErrorAlert("Borrowing not allow for a book twice");
+    //   return;
+    // } else {
+    //   const { data } = await axiosSecure.patch(`/borrow-book/${id}`, {
+    //     quantity,
+    //   });
+    // }
+    const { data } = await axiosSecure.patch(`/borrow-book/${id}`, {
+      quantity,
+    });
   };
 
   return (
     <div className="max-w-7xl mx-auto px-3 md:px-8 lg:px-14">
-      <div className="my-24">
-        <div className="max-w-lg mx-auto text-center space-y-4">
+      <div className="my-20">
+        <div className="max-w-lg mx-auto text-center space-y-2">
           <h1 className="text-3xl font-bold font-PlayFair text-center">
             Categories list of Books
           </h1>
@@ -113,7 +149,7 @@ const BookDetails = () => {
             experience for every literary enthusiast.
           </p>
         </div>
-        <div className="card card-side border border-[#055c36] shadow-xl">
+        <div className="card card-side border border-[#055c36] shadow-xl my-20">
           <figure className="w-1/3">
             <img src={image} alt={name} />
           </figure>
@@ -135,7 +171,11 @@ const BookDetails = () => {
               }
             >
               <label
-                htmlFor="borrow_modals"
+                htmlFor={
+                  borrowQuantity.length >= 3
+                    ? showErrorAlert("You cannot borrow more than 3 books")
+                    : "borrow_modals"
+                }
                 disabled={quantity < 1}
                 className="btn btn-outline text-[#055c36]"
               >
@@ -148,7 +188,7 @@ const BookDetails = () => {
               className="modal-toggle"
             />
             <div className="modal" role="dialog">
-              <div className="modal-box">
+              <div className="modal-box text-black">
                 <h3 className="font-bold text-lg">Borrow the book: {name}</h3>
                 <p className="py-4">
                   Available book{" "}
@@ -231,9 +271,17 @@ const BookDetails = () => {
                       {errors.email && showErrorAlert(errors.email.message)}
                     </div>
                     {/* if there is a button in form, it will close the modal */}
-                    <div className="flex justify-between items-center mt-10">
+                    <div
+                      className="flex justify-between items-center mt-10"
+                      title={
+                        borrowQuantity.length >= 3
+                          ? "You cannot borrow more than 3 books!"
+                          : "Borrow the Book!"
+                      }
+                    >
                       <button
                         onClick={() => handleQuantity(_id, quantity)}
+                        disabled={borrowQuantity.length >= 3}
                         className="btn bg-gradient-to-r from-[#727d61] to-[#055c36] text-white"
                       >
                         Submit

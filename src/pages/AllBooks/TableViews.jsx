@@ -5,7 +5,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
-const TableViews = ({ allBookList, setAllBookList }) => {
+const TableViews = ({ allBookList, setAllBookList, librarian }) => {
   console.log(allBookList);
   const axiosSecure = useAxiosSecure();
   const handleDelete = async (id) => {
@@ -81,18 +81,31 @@ const TableViews = ({ allBookList, setAllBookList }) => {
                 </p>
               </td>
               <th className="flex items-center gap-2">
-                <Link
-                  onClick={() => handleDelete(book._id)}
-                  className="btn btn-outline"
-                >
-                  <MdDeleteOutline className="text-2xl" />
-                </Link>
-                <Link
-                  to={`/update-book/${book._id}`}
-                  className="btn btn-outline"
-                >
-                  <FaEdit className="text-lg" />
-                </Link>
+                {librarian ? (
+                  <div className="card-actions grid grid-cols-1 md:grid-cols-2">
+                    <Link
+                      onClick={() => handleDelete(book._id)}
+                      className="btn btn-outline"
+                    >
+                      <MdDeleteOutline className="text-2xl" />
+                    </Link>
+                    <Link
+                      to={`/update-book/${book._id}`}
+                      className="btn btn-outline"
+                    >
+                      <FaEdit className="text-lg" />
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="card-actions">
+                    <Link
+                      to={`/book/${book._id}`}
+                      className="btn btn-outline text-[#055c36]"
+                    >
+                      View Details
+                    </Link>
+                  </div>
+                )}
               </th>
             </tr>
           ))}

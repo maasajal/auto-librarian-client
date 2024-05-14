@@ -5,7 +5,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
-const BookCard = ({ allBooks, allBookList, setAllBookList }) => {
+const BookCard = ({ allBooks, allBookList, setAllBookList, librarian }) => {
   const axiosSecure = useAxiosSecure();
   const handleDelete = async (id) => {
     console.log("Delete", id);
@@ -52,17 +52,31 @@ const BookCard = ({ allBooks, allBookList, setAllBookList }) => {
           <span>Rating: {allBooks.rating}</span>
           <Rating initialRating={allBooks.rating} readonly />
         </p>
-        <div className="card-actions grid grid-cols-1 md:grid-cols-2">
-          <Link
-            onClick={() => handleDelete(allBooks._id)}
-            className="btn btn-outline text-[#055c36]"
-          >
-            <MdDeleteOutline className="text-2xl" /> Delete
-          </Link>
-          <Link to={`/update-book/${allBooks._id}`} className="btn btn-outline text-[#055c36]">
-            <FaEdit className="text-lg" /> Update
-          </Link>
-        </div>
+        {librarian ? (
+          <div className="card-actions grid grid-cols-1 md:grid-cols-2">
+            <Link
+              onClick={() => handleDelete(allBooks._id)}
+              className="btn btn-outline text-[#055c36]"
+            >
+              <MdDeleteOutline className="text-2xl" /> Delete
+            </Link>
+            <Link
+              to={`/update-book/${allBooks._id}`}
+              className="btn btn-outline text-[#055c36]"
+            >
+              <FaEdit className="text-lg" /> Update
+            </Link>
+          </div>
+        ) : (
+          <div className="card-actions">
+            <Link
+              to={`/book/${allBooks._id}`}
+              className="btn btn-outline text-[#055c36]"
+            >
+              View Details
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -35,6 +35,7 @@ const BorrowedBooks = () => {
     if (result.isConfirmed) {
       try {
         const { data } = await axiosSecure.delete(`/borrowed-books/${id}`);
+        await axiosSecure.patch(`/return-book/${id}`);
         if (data.deletedCount > 0) {
           Swal.fire({
             title: "Return!",
@@ -96,7 +97,7 @@ const BorrowedBooks = () => {
                 </p>
                 <div className="card-actions">
                   <button
-                    onClick={() => handleReturn(book._id)}
+                    onClick={() => handleReturn(book.id)}
                     className="btn bg-gradient-to-r from-[#055c36] to-[#727d61] text-white w-full"
                   >
                     Return

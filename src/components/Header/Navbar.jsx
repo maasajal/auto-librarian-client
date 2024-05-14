@@ -38,11 +38,7 @@ const Navbar = ({ dark, toggleTheme }) => {
     </>
   );
   return (
-    <div
-      className={`navbar py-5 md:py-5 md:px-14 ${
-        dark ? "bg-slate-800" : "bg-white"
-      }`}
-    >
+    <div className={`navbar py-5 md:py-5 md:px-14`}>
       <div className="navbar-start">
         <div className="dropdown text-[#055c36]">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -73,7 +69,13 @@ const Navbar = ({ dark, toggleTheme }) => {
         </a>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 text-[#055c36]">{navLinks}</ul>
+        <ul
+          className={`menu menu-horizontal px-1 ${
+            dark ? "text-white" : "text-[#055c36]"
+          }`}
+        >
+          {navLinks}
+        </ul>
       </div>
       <div className="navbar-end user flex gap-7">
         {/* Dark and light theme */}
@@ -113,13 +115,13 @@ const Navbar = ({ dark, toggleTheme }) => {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <NavLink to="/user-profile" className="py-3 hover:text-white">
-                  User Profile
+                <NavLink to="/add-book" className="py-3 hover:text-white">
+                  All Book
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/update-profile" className="py-3 hover:text-white">
-                  Update Profile
+                <NavLink to="/all-books" className="py-3 hover:text-white">
+                  All Books
                 </NavLink>
               </li>
             </ul>
@@ -129,13 +131,20 @@ const Navbar = ({ dark, toggleTheme }) => {
           <Link
             to="/"
             onClick={handleSignOut}
-            className="btn btn-outline text-[#055c36] px-5"
+            className={`btn btn-outline ${
+              dark ? "text-white" : "text-[#055c36]"
+            } px-5`}
           >
             Sign Out
           </Link>
         ) : (
           <>
-            <Link to="/login" className="btn btn-outline text-[#055c36] px-5">
+            <Link
+              to="/login"
+              className={`btn btn-outline ${
+                dark ? "text-white" : "text-[#055c36]"
+              } px-5`}
+            >
               Login
             </Link>
           </>

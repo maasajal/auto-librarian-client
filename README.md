@@ -44,3 +44,8 @@ Auto Librarian is an innovative e-library project designed to revolutionize the 
 2. Filter by “Show available books” on the All Books page. By clicking this button, only available books will be shown.
 3. Card View and Table View Implement on the All Books page.
 4. Implementing a dark/light theme toggle for the all pages.
+
+### Librarian role
+
+- Email: `auto@librarian.com`
+- Password: `1234$R`

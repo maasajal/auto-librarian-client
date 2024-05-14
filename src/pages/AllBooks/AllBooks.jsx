@@ -1,11 +1,18 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import BookCard from "./BookCard";
 import TableViews from "./TableViews";
+import { AuthContext } from "../../providers/AuthProvider";
+
 const AllBooks = () => {
   const getAllBooks = useLoaderData();
   const [allBookList, setAllBookList] = useState(getAllBooks.data);
   const [views, setViews] = useState(true);
+
+  const { user } = useContext(AuthContext);
+  console.log(user);
+  const librarian = user.email === "auto@librarian.com";
+  console.log(librarian);
 
   const handleFilter = () => {
     const showAvailableBook = allBookList.filter((book) => book.quantity > 0);
@@ -71,6 +78,7 @@ const AllBooks = () => {
               allBooks={book}
               allBookList={allBookList}
               setAllBookList={setAllBookList}
+              librarian={librarian}
             />
           ))}
         </div>
@@ -79,6 +87,7 @@ const AllBooks = () => {
           <TableViews
             allBookList={allBookList}
             setAllBookList={setAllBookList}
+            librarian={librarian}
           />
         </div>
       )}
