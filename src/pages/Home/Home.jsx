@@ -9,10 +9,12 @@ import { FaBookAtlas } from "react-icons/fa6";
 import { FaFileAudio } from "react-icons/fa";
 import { PiVideoDuotone } from "react-icons/pi";
 import { GiMusicalScore, GiNewspaper } from "react-icons/gi";
+import DatePicker from "react-datepicker";
 
 const Home = () => {
   const axiosSecure = useAxiosSecure();
   const [bookCategory, setBookCategory] = useState([]);
+  const [startDate, setStartDate] = useState(new Date());
 
   const getAllBooks = async () => {
     const { data } = await axiosSecure.get("/book-categories");
@@ -131,14 +133,65 @@ const Home = () => {
                   </p>
                 </Zoom>
                 <Bounce>
-                  <button className="btn border-none text-white bg-gradient-to-br from-[#055c36] to-[#727d61]">
+                  {/* The button to open modal */}
+                  <label
+                    htmlFor="reserve_room"
+                    className="btn border-none text-white bg-gradient-to-br from-[#055c36] to-[#727d61]"
+                  >
                     Reserve a Group Room
-                  </button>
+                  </label>
                 </Bounce>
               </div>
             </div>
           </div>
         </Zoom>
+      </div>
+      {/* Put this part before </body> tag */}
+      <input type="checkbox" id="reserve_room" className="modal-toggle" />
+      <div className="modal" role="dialog">
+        <div className="modal-box">
+          <h3 className="text-lg font-bold">Places To Study!</h3>
+          <p className="py-4">
+            There are group study rooms, individual study carrels, computers
+            labs, and other spaces to study in the Libraries.!
+          </p>
+          <Zoom>
+            <form className="bg-[#055c36] p-8 text-white">
+              <label htmlFor="reserve_time">Reserve a time</label>
+              <br />
+              <DatePicker
+                id="reserve_time"
+                className="bg-transparent border p-2 border-emerald-600 mt-1 w-full"
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+              />
+              <br /> <br />
+              <label htmlFor="reserve_room">Select a room number</label>
+              <br />
+              <select
+                id="reserve_room"
+                type="number"
+                className="bg-transparent border p-2 border-emerald-600 mt-1 w-full"
+              >
+                <option value={1}>1</option>
+                <option value={2}>2</option>
+                <option value={3}>3</option>
+                <option value={4}>4</option>
+                <option value={5}>5</option>
+              </select>{" "}
+              <br />
+              <br />
+              <input
+                type="submit"
+                value="Submit"
+                className="bg-transparent border p-2 border-emerald-600 mt-1 w-full"
+              />
+            </form>
+          </Zoom>
+        </div>
+        <label className="modal-backdrop" htmlFor="reserve_room">
+          Close
+        </label>
       </div>
     </div>
   );
