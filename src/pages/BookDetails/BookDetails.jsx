@@ -73,11 +73,18 @@ const BookDetails = () => {
   });
 
   const onSubmit = async (newData) => {
-    console.log(newData);
+    if (newData.borrow_date > newData.return_date) {
+      showErrorAlert(
+        "Return date cannot be past day or the same day of borrowing!"
+      );
+      return;
+    }
     try {
       const bbId = borrowQuantity.find((bId) => bId.id === newData.id);
       if (bbId) {
-        showErrorAlert("Borrowing not allow for a book twice");
+        showErrorAlert(
+          "You cannot borrow a book twice! You can return & borrow the book again."
+        );
       } else {
         const { data } = await axiosSecure.post("/borrow-books", newData);
         await axiosSecure.patch(`/borrow-book/${newData.id}`);
@@ -132,161 +139,159 @@ const BookDetails = () => {
             </p>
           </div>
         </Slide>
-        <Slide direction="up">
-          <div className="card card-side border border-[#055c36] shadow-xl my-20">
-            <figure className="w-1/3">
-              <img src={image} alt={name} />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">Book Name: {name}</h2>
-              <p>Author Name: {author_name}</p>
-              <p>Category: {category}</p>
-              <p>Available of the book: {quantity} pcs</p>
-              <p className="flex items-center gap-3">
-                <span>Rating: {rating}</span>
-                <Rating initialRating={rating} readonly />
-              </p>
-              <p>Short Description: {description} </p>
-              <p>Book Contents: {contents} </p>
-              <div
-                className="card-actions grid grid-cols-1 md:grid-cols-2"
-                title={
-                  quantity < 1 ? "Book is not available!" : "Borrow the Book!"
+        <div className="card card-side border border-[#055c36] shadow-xl my-20">
+          <figure className="w-1/3">
+            <img src={image} alt={name} />
+          </figure>
+          <div className="card-body">
+            <h2 className="card-title">Book Name: {name}</h2>
+            <p>Author Name: {author_name}</p>
+            <p>Category: {category}</p>
+            <p>Available of the book: {quantity} pcs</p>
+            <p className="flex items-center gap-3">
+              <span>Rating: {rating}</span>
+              <Rating initialRating={rating} readonly />
+            </p>
+            <p>Short Description: {description} </p>
+            <p>Book Contents: {contents} </p>
+            <div
+              className="card-actions grid grid-cols-1 md:grid-cols-2"
+              title={
+                quantity < 1 ? "Book is not available!" : "Borrow the Book!"
+              }
+            >
+              <label
+                htmlFor={
+                  borrowQuantity.length >= 3
+                    ? showErrorAlert("You cannot borrow more than 3 books")
+                    : "borrow_modals"
                 }
+                disabled={quantity < 1}
+                className="btn btn-outline text-[#055c36]"
               >
-                <label
-                  htmlFor={
-                    borrowQuantity.length >= 3
-                      ? showErrorAlert("You cannot borrow more than 3 books")
-                      : "borrow_modals"
-                  }
-                  disabled={quantity < 1}
-                  className="btn btn-outline text-[#055c36]"
-                >
-                  Borrow Book
-                </label>
-              </div>
-              <input
-                type="checkbox"
-                id="borrow_modals"
-                className="modal-toggle"
-              />
-              <div className="modal" role="dialog">
-                <div className="modal-box text-black">
-                  <h3 className="font-bold text-lg">Borrow the book: {name}</h3>
-                  <p className="py-4">
-                    Available book{" "}
-                    <span className="bg-[#055c36] px-4 py-1 text-white rounded-full">
-                      {quantity}
-                    </span>{" "}
-                    pcs
-                  </p>
-                  <div className="py-10">
-                    <form
-                      method="dialog"
-                      onSubmit={handleSubmit(onSubmit)}
-                      className="space-y-5"
+                Borrow Book
+              </label>
+            </div>
+            <input
+              type="checkbox"
+              id="borrow_modals"
+              className="modal-toggle"
+            />
+            <div className="modal" role="dialog">
+              <div className="modal-box text-black">
+                <h3 className="font-bold text-lg">Borrow the book: {name}</h3>
+                <p className="py-4">
+                  Available book{" "}
+                  <span className="bg-[#055c36] px-4 py-1 text-white rounded-full">
+                    {quantity}
+                  </span>{" "}
+                  pcs
+                </p>
+                <div className="py-10">
+                  <form
+                    method="dialog"
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="space-y-5"
+                  >
+                    {/* Sending this data to borrowed_books collection */}
+                    <div className="hidden">
+                      <input type="text" {...register("id")} /> <br />
+                      <input type="text" {...register("image")} /> <br />
+                      <input type="text" {...register("name")} /> <br />
+                      <input type="text" {...register("category")} /> <br />
+                      <DatePicker
+                        {...register("borrow_date")}
+                        selected={startDate}
+                        onChange={(date) => setStartDate(date)}
+                      />
+                    </div>
+                    <div className="flex items-center border-b-2 border-[#055c36]">
+                      <label htmlFor="return_date" className="mr-2">
+                        Book Return Date
+                        <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        id="return_date"
+                        {...register("return_date", {
+                          required: {
+                            value: true,
+                            message: "Book return date is required!",
+                          },
+                        })}
+                        type="date"
+                        className="p-2 flex-grow bg-transparent"
+                      />
+                      {errors.return_date &&
+                        showErrorAlert(errors.return_date.message)}
+                    </div>
+                    <div className="flex items-center border-b-2 border-[#055c36]">
+                      <label htmlFor="display_name" className="mr-2">
+                        User Name<span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        id="display_name"
+                        {...register("display_name", {
+                          required: {
+                            value: true,
+                            message: "Name is required!",
+                          },
+                        })}
+                        type="text"
+                        disabled
+                        className="p-2 flex-grow bg-transparent"
+                      />
+                      {errors.display_name &&
+                        showErrorAlert(errors.display_name.message)}
+                    </div>
+                    <div className="flex items-center border-b-2 border-[#055c36]">
+                      <label htmlFor="email" className="mr-2">
+                        User Email<span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        id="email"
+                        {...register("email", {
+                          required: {
+                            value: true,
+                            message: "User email is required!",
+                          },
+                        })}
+                        type="email"
+                        disabled
+                        className="p-2 flex-grow bg-transparent"
+                      />
+                      {errors.email && showErrorAlert(errors.email.message)}
+                    </div>
+                    {/* if there is a button in form, it will close the modal */}
+                    <div
+                      className="flex justify-between items-center mt-10"
+                      title={
+                        borrowQuantity.length >= 3
+                          ? "You cannot borrow more than 3 books!"
+                          : "Borrow the Book!"
+                      }
                     >
-                      {/* Sending this data to borrowed_books collection */}
-                      <div className="hidden">
-                        <input type="text" {...register("id")} /> <br />
-                        <input type="text" {...register("image")} /> <br />
-                        <input type="text" {...register("name")} /> <br />
-                        <input type="text" {...register("category")} /> <br />
-                        <DatePicker
-                          {...register("borrow_date")}
-                          selected={startDate}
-                          onChange={(date) => setStartDate(date)}
-                        />
-                      </div>
-                      <div className="flex items-center border-b-2 border-[#055c36]">
-                        <label htmlFor="return_date" className="mr-2">
-                          Book Return Date
-                          <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          id="return_date"
-                          {...register("return_date", {
-                            required: {
-                              value: true,
-                              message: "Book return date is required!",
-                            },
-                          })}
-                          type="date"
-                          className="p-2 flex-grow bg-transparent"
-                        />
-                        {errors.return_date &&
-                          showErrorAlert(errors.return_date.message)}
-                      </div>
-                      <div className="flex items-center border-b-2 border-[#055c36]">
-                        <label htmlFor="display_name" className="mr-2">
-                          User Name<span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          id="display_name"
-                          {...register("display_name", {
-                            required: {
-                              value: true,
-                              message: "Name is required!",
-                            },
-                          })}
-                          type="text"
-                          disabled
-                          className="p-2 flex-grow bg-transparent"
-                        />
-                        {errors.display_name &&
-                          showErrorAlert(errors.display_name.message)}
-                      </div>
-                      <div className="flex items-center border-b-2 border-[#055c36]">
-                        <label htmlFor="email" className="mr-2">
-                          User Email<span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          id="email"
-                          {...register("email", {
-                            required: {
-                              value: true,
-                              message: "User email is required!",
-                            },
-                          })}
-                          type="email"
-                          disabled
-                          className="p-2 flex-grow bg-transparent"
-                        />
-                        {errors.email && showErrorAlert(errors.email.message)}
-                      </div>
-                      {/* if there is a button in form, it will close the modal */}
-                      <div
-                        className="flex justify-between items-center mt-10"
-                        title={
-                          borrowQuantity.length >= 3
-                            ? "You cannot borrow more than 3 books!"
-                            : "Borrow the Book!"
-                        }
+                      <button
+                        disabled={borrowQuantity.length >= 3}
+                        className="btn bg-gradient-to-r from-[#727d61] to-[#055c36] text-white"
                       >
-                        <button
-                          disabled={borrowQuantity.length >= 3}
-                          className="btn bg-gradient-to-r from-[#727d61] to-[#055c36] text-white"
-                        >
-                          Submit
-                        </button>
-                        <label
-                          className="btn bg-gradient-to-r from-[#727d61] to-[#055c36] text-white"
-                          htmlFor="borrow_modals"
-                        >
-                          Close
-                        </label>
-                      </div>
-                    </form>
-                  </div>
+                        Submit
+                      </button>
+                      <label
+                        className="btn bg-gradient-to-r from-[#727d61] to-[#055c36] text-white"
+                        htmlFor="borrow_modals"
+                      >
+                        Close
+                      </label>
+                    </div>
+                  </form>
                 </div>
-                <label className="modal-backdrop" htmlFor="borrow_modals">
-                  Close
-                </label>
               </div>
+              <label className="modal-backdrop" htmlFor="borrow_modals">
+                Close
+              </label>
             </div>
           </div>
-        </Slide>
+        </div>
       </div>
     </div>
   );

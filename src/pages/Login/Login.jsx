@@ -5,13 +5,11 @@ import { FaEye, FaEyeSlash, FaGithub, FaGoogle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { Helmet } from "react-helmet";
 import { Bounce, Flip, Zoom } from "react-awesome-reveal";
 const Login = () => {
   const { logInUser, signInWithGoogle, signInWithGithub, loading } =
     useContext(AuthContext);
-  const axiosSecure = useAxiosSecure();
   const location = useLocation();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -44,13 +42,6 @@ const Login = () => {
     try {
       const response = await logInUser(email, password);
       const user = response.user;
-      const { data } = await axiosSecure.post(
-        "/jwt",
-        {
-          email: user?.email,
-        },
-        { withCredentials: true }
-      );
       Swal.fire({
         title: "Success!",
         text: `Welcome back ${
@@ -76,13 +67,6 @@ const Login = () => {
     try {
       const result = await signInWithGoogle();
       const user = result.user;
-      await axiosSecure.post(
-        "/jwt",
-        {
-          email: user?.email,
-        },
-        { withCredentials: true }
-      );
       Swal.fire({
         title: "Success!",
         text: `Welcome ${user.displayName ? user.displayName : user.email}`,
@@ -105,13 +89,6 @@ const Login = () => {
     try {
       const result = await signInWithGithub();
       const user = result.user;
-      await axiosSecure.post(
-        "/jwt",
-        {
-          email: user?.email,
-        },
-        { withCredentials: true }
-      );
       Swal.fire({
         title: "Success!",
         text: `Welcome ${user.displayName ? user.displayName : user.email}`,

@@ -12,7 +12,7 @@ const CategoriesCard = ({ categoryBook }) => {
   return (
     <>
       {!loading ? (
-        <div className="card card-side border border-[#055c36] shadow-xl">
+        <div className="card card-side border border-[#055c36] items-center shadow-xl">
           <figure className="w-1/3">
             <Slide direction="up">
               <img src={image} alt={name} />

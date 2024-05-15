@@ -11,7 +11,8 @@ const BorrowedBooks = () => {
   const [borrowList, setBorrowList] = useState([]);
 
   const getBorrowedBooks = async () => {
-    const { data } = await axiosSecure(`/borrowed-books/${user.email}`, {
+    // const { data } = await axiosSecure.get(`/borrowed-books/${user.email}`, {
+        const { data } = await axiosSecure.get(`/borrowed-books?email=${user?.email}`, {
       withCredentials: true,
     });
     // console.log(data);
@@ -23,7 +24,7 @@ const BorrowedBooks = () => {
   //   console.log(myBorrowList);
 
   const handleReturn = async (id) => {
-    console.log("Return", id);
+    // console.log("Return", id);
     const result = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",

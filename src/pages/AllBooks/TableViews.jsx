@@ -7,10 +7,10 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { Slide } from "react-awesome-reveal";
 
 const TableViews = ({ allBookList, setAllBookList, librarian }) => {
-  console.log(allBookList);
+//   console.log(allBookList);
   const axiosSecure = useAxiosSecure();
   const handleDelete = async (id) => {
-    console.log("Delete", id);
+    // console.log("Delete", id);
     const result = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",

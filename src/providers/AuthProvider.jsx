@@ -57,13 +57,32 @@ const AuthProvider = ({ children }) => {
   // Sign Out user
   const logOut = async () => {
     setLoading(true);
-    await axiosSecure("/logout", { withCredentials: true });
     return signOut(auth);
   };
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
+      const userEmail = currentUser?.email || user?.email;
+      const loggedUser = { email: userEmail };
       setUser(currentUser);
       setLoading(false);
+
+      if (currentUser) {
+        axiosSecure
+          .post("/jwt", loggedUser, {
+            withCredentials: true,
+          })
+          .then((res) => {
+            // console.log("token response", res.data);
+          });
+      } else {
+        axiosSecure
+          .post("/logout", loggedUser, {
+            withCredentials: true,
+          })
+          .then((res) => {
+            console.log("Token clear after logged out", res.data);
+          });
+      }
     });
     return () => {
       unSubscribe();

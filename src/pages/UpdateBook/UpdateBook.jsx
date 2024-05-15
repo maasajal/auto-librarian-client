@@ -16,7 +16,7 @@ const UpdateBook = () => {
   const [booksCategory, setBooksCategory] = useState([]);
   const getBooks = async () => {
     const { data } = await axiosSecure.get("/book-categories");
-    console.log(data);
+    // console.log(data);
     setBooksCategory(data);
   };
   useEffect(() => {

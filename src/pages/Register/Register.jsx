@@ -6,14 +6,12 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import { updateProfile } from "firebase/auth";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { Helmet } from "react-helmet";
 import { Bounce, Zoom } from "react-awesome-reveal";
 const Register = () => {
   const { createUser } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
-  const axiosSecure = useAxiosSecure();
   const {
     register,
     handleSubmit,
@@ -38,14 +36,6 @@ const Register = () => {
       const user = response.user;
       // console.log(user);
       updateProfile(user, { displayName: name, photoURL: photo });
-      const { data } = await axiosSecure.post(
-        "/jwt",
-        {
-          email: user?.email,
-        },
-        { withCredentials: true }
-      );
-
       Swal.fire({
         title: "Success!",
         text: `Welcome ${user.displayName ? user.displayName : user.email}`,

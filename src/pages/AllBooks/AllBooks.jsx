@@ -12,9 +12,9 @@ const AllBooks = () => {
   const [views, setViews] = useState(true);
 
   const { user } = useContext(AuthContext);
-  console.log(user);
+//   console.log(user);
   const librarian = user.email === "auto@librarian.com";
-  console.log(librarian);
+//   console.log(librarian);
 
   const handleFilter = () => {
     const showAvailableBook = allBookList.filter((book) => book.quantity > 0);
