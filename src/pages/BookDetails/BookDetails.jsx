@@ -20,8 +20,6 @@ const BookDetails = () => {
   const axiosSecure = useAxiosSecure();
   const [startDate, setStartDate] = useState(new Date());
   const [borrowQuantity, setBorrowQuantity] = useState([]);
-  const bbId = borrowQuantity.map((bookId) => bookId.id);
-  console.log(bbId);
 
   const getBorrowedBooks = async () => {
     const { data } = await axiosSecure.get(`/borrowed-books/${user.email}`, {
@@ -75,10 +73,14 @@ const BookDetails = () => {
   });
 
   const onSubmit = async (newData) => {
-    // console.log(data);
+    console.log(newData);
     try {
+      const bbId = borrowQuantity.find((bId) => bId.id === newData.id);
       if (bbId) {
+        showErrorAlert("Borrowing not allow for a book twice");
+      } else {
         const { data } = await axiosSecure.post("/borrow-books", newData);
+        await axiosSecure.patch(`/borrow-book/${newData.id}`);
         if (data.insertedId) {
           Swal.fire({
             title: "Success!",
@@ -89,9 +91,6 @@ const BookDetails = () => {
           reset();
           navigate(`/borrowed-books`);
         }
-      } else {
-        showErrorAlert("Borrowing not allow for a book twice");
-        // return;
       }
     } catch (err) {
       //   console.log(err);
@@ -114,30 +113,6 @@ const BookDetails = () => {
     });
   };
 
-  const handleQuantity = async (id, quantity) => {
-    // console.log(id, quantity);
-    const borrowId = borrowQuantity.map((bookId) => bookId.id === id);
-    console.log(borrowId);
-    // {
-    //   !bbId
-    //     ? await axiosSecure.patch(`/borrow-book/${id}`, {
-    //         quantity,
-    //       })
-    //     : showErrorAlert("Borrowing not allow for a book twice");
-    // }
-    // if (!bbId) {
-    //   showErrorAlert("Borrowing not allow for a book twice");
-    //   return;
-    // } else {
-    //   const { data } = await axiosSecure.patch(`/borrow-book/${id}`, {
-    //     quantity,
-    //   });
-    // }
-    const { data } = await axiosSecure.patch(`/borrow-book/${id}`, {
-      quantity,
-    });
-  };
-
   return (
     <div className="max-w-7xl mx-auto px-3 md:px-8 lg:px-14">
       <Helmet>
@@ -157,14 +132,12 @@ const BookDetails = () => {
             </p>
           </div>
         </Slide>
-        <div className="card card-side border border-[#055c36] shadow-xl my-20">
-          <figure className="w-1/3">
-            <Slide direction="up">
+        <Slide direction="up">
+          <div className="card card-side border border-[#055c36] shadow-xl my-20">
+            <figure className="w-1/3">
               <img src={image} alt={name} />
-            </Slide>
-          </figure>
-          <div className="card-body">
-            <Slide direction="up">
+            </figure>
+            <div className="card-body">
               <h2 className="card-title">Book Name: {name}</h2>
               <p>Author Name: {author_name}</p>
               <p>Category: {category}</p>
@@ -292,7 +265,6 @@ const BookDetails = () => {
                         }
                       >
                         <button
-                          onClick={() => handleQuantity(_id, quantity)}
                           disabled={borrowQuantity.length >= 3}
                           className="btn bg-gradient-to-r from-[#727d61] to-[#055c36] text-white"
                         >
@@ -312,9 +284,9 @@ const BookDetails = () => {
                   Close
                 </label>
               </div>
-            </Slide>
+            </div>
           </div>
-        </div>
+        </Slide>
       </div>
     </div>
   );

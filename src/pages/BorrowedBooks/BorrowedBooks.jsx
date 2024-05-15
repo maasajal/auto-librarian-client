@@ -3,7 +3,7 @@ import { AuthContext } from "../../providers/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet";
-import { Slide } from "react-awesome-reveal";
+import { Slide, Zoom } from "react-awesome-reveal";
 
 const BorrowedBooks = () => {
   const { user } = useContext(AuthContext);
@@ -81,17 +81,15 @@ const BorrowedBooks = () => {
         </Slide>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 my-24">
           {borrowList.map((book) => (
-            <div
-              className="card card-side shadow-xl border border-[#055c36]"
-              key={book._id}
-            >
-              <figure className="w-1/3">
-                <Slide direction="up">
+            <Zoom key={book._id}>
+              <div
+                className="card card-side shadow-xl border border-[#055c36]"
+                key={book._id}
+              >
+                <figure className="w-1/3">
                   <img src={book?.image} alt={book?.name} />
-                </Slide>
-              </figure>
-              <div className="card-body space-y-3">
-                <Slide direction="up">
+                </figure>
+                <div className="card-body space-y-3">
                   <h2 className="card-title">{book?.name}</h2>
                   <p>Category: {book?.category}</p>
                   <p>
@@ -114,9 +112,9 @@ const BorrowedBooks = () => {
                       Return
                     </button>
                   </div>
-                </Slide>
+                </div>
               </div>
-            </div>
+            </Zoom>
           ))}
         </div>
       </div>
