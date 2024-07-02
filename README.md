@@ -1,16 +1,20 @@
 # Auto Librarian is an e-Library
 
-## [Private Client side Repo Link](https://github.com/Porgramming-Hero-web-course/b9a11-client-side-maasajal)
+## Demos
 
-## [Private Server side Repo Link](https://github.com/Porgramming-Hero-web-course/b9a11-server-side-maasajal)
+- Live Client Site Link: [https://auto-e-librarian.web.app](https://auto-e-librarian.web.app)
 
-## Live Client Site Link: [https://auto-e-librarian.web.app](https://auto-e-librarian.web.app)
+- Live Server Site Link: [https://auto-librarian.vercel.app](https://auto-librarian.vercel.app)
 
-## Live Server Site Link: [https://auto-librarian.vercel.app](https://auto-librarian.vercel.app)
+- Run the project on your Local machine
 
-## Assignment_ID:
+  - Clone: `git clone https://github.com/maasajal/auto-librarian-client.git`
+  - Change Directory: `cd auto-librarian-client`
+  - Install packages: `npm i` or `npm install`
+  - create a .env.local file and add firebase config code. example code at the end
+  - Run: `npm run dev`
 
-- assignment_category_0008
+## [Server side Repo Link](https://github.com/maasajal/auto-librarian-server)
 
 ## About the project
 
@@ -49,3 +53,12 @@ Auto Librarian is an innovative e-library project designed to revolutionize the 
 
 - Email: `auto@librarian.com`
 - Password: `1234$R`
+
+```
+  VITE_APIKEY=
+  VITE_AUTHDOMAIN=
+  VITE_PROJECTID=
+  VITE_STORAGEBUCKET=
+  VITE_MESSAGINGSENDERID=
+  VITE_APPID=
+```
